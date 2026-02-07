@@ -214,7 +214,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-navy" />
         <div className="absolute inset-0 opacity-10">
           <Image
-            src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1920&h=600&fit=crop&q=60"
+            src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=1920&h=600&fit=crop&q=60"
             alt=""
             fill
             className="object-cover"

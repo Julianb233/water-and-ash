@@ -49,7 +49,7 @@ If you're considering a sea burial for your loved one, we're here to answer any 
     date: '2025-12-15',
     category: 'Sea Burial Guide',
     imageUrl:
-      'https://images.unsplash.com/photo-1534278931827-8a259344abe7?w=800&h=600&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1439405326854-014607f694d7?w=800&h=600&fit=crop&q=80',
     author: 'Water & Ash Team',
   },
   {

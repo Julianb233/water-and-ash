@@ -23,7 +23,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-navy text-white relative overflow-hidden">
+    <footer className="bg-gradient-navy text-white relative overflow-hidden" role="contentinfo">
       {/* Decorative top border */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold to-transparent" />
 
@@ -163,7 +163,7 @@ export function Footer() {
               &copy; {currentYear} Water & Ash Burials. All rights reserved.
             </p>
             <p className="text-sm text-white/50 flex items-center gap-2">
-              Made with <Heart className="h-4 w-4 text-gold" /> in San Diego
+              Made with <Heart className="h-4 w-4 text-gold" aria-hidden="true" /> in San Diego
             </p>
           </div>
         </div>

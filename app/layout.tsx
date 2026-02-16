@@ -67,8 +67,14 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body className="flex min-h-screen flex-col antialiased">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-4 focus:left-4 focus:rounded-md focus:bg-gold focus:px-4 focus:py-2 focus:text-navy focus:font-semibold focus:outline-none"
+        >
+          Skip to main content
+        </a>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
         <Footer />
         <Analytics />
         <SpeedInsights />

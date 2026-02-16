@@ -5,7 +5,11 @@ import { FadeIn } from '@/components/animations/motion-primitives';
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
-    'Privacy policy for Water & Ash Burials. Learn how we collect, use, and protect your personal information.',
+    'Privacy policy for Water & Ash Burials. Learn how we collect, use, and protect your personal information when using our sea burial services.',
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function PrivacyPage() {
@@ -14,10 +18,10 @@ export default function PrivacyPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-16 md:py-24">
+      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-20 md:py-28">
         <Container>
           <FadeIn className="mx-auto max-w-3xl text-center">
-            <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               Privacy Policy
             </h1>
             <p className="mt-4 text-muted-foreground">
@@ -28,7 +32,7 @@ export default function PrivacyPage() {
       </section>
 
       {/* Privacy Content */}
-      <section className="py-16">
+      <section className="py-20 md:py-28">
         <Container>
           <div className="mx-auto max-w-3xl prose prose-slate">
             <div className="space-y-8">

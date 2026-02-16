@@ -76,7 +76,11 @@ export function Header() {
                     onMouseEnter={() => setServicesOpen(true)}
                     onMouseLeave={() => setServicesOpen(false)}
                   >
-                    <button className="flex items-center gap-1 text-sm font-medium leading-6 text-foreground hover:text-gold transition-colors py-2">
+                    <button
+                      aria-expanded={servicesOpen}
+                      aria-label="Services menu"
+                      className="flex items-center gap-1 text-sm font-medium leading-6 text-foreground hover:text-gold transition-colors py-2"
+                    >
                       {item.name}
                       <ChevronDown
                         className={`h-4 w-4 transition-transform duration-200 ${
@@ -121,9 +125,10 @@ export function Header() {
           <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-4 lg:items-center">
             <a
               href="tel:619-928-9160"
+              aria-label="Call us at 619-928-9160"
               className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-gold transition-colors"
             >
-              <Phone className="h-4 w-4" />
+              <Phone className="h-4 w-4" aria-hidden="true" />
               <span>619-928-9160</span>
             </a>
             <Button asChild className="btn-gold border-0 rounded-full px-6">
@@ -148,6 +153,8 @@ export function Header() {
                     <div>
                       <button
                         onClick={() => setServicesOpen(!servicesOpen)}
+                        aria-expanded={servicesOpen}
+                        aria-label="Services menu"
                         className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-base font-semibold text-foreground hover:bg-gold/10 transition-colors"
                       >
                         {item.name}
@@ -187,9 +194,10 @@ export function Header() {
               <div className="pt-4 space-y-3">
                 <a
                   href="tel:619-928-9160"
+                  aria-label="Call us at 619-928-9160"
                   className="flex items-center justify-center gap-2 text-base font-medium text-muted-foreground"
                 >
-                  <Phone className="h-5 w-5" />
+                  <Phone className="h-5 w-5" aria-hidden="true" />
                   <span>619-928-9160</span>
                 </a>
                 <Button asChild className="w-full btn-gold border-0 rounded-full">

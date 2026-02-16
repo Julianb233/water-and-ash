@@ -73,10 +73,11 @@ export function ContactForm() {
           placeholder="Your full name"
           {...register('name')}
           aria-invalid={errors.name ? 'true' : 'false'}
+          aria-describedby={errors.name ? 'name-error' : undefined}
           disabled={isSubmitting}
         />
         {errors.name && (
-          <p className="text-sm text-destructive">{errors.name.message}</p>
+          <p id="name-error" role="alert" className="text-sm text-destructive">{errors.name.message}</p>
         )}
       </div>
 
@@ -90,10 +91,11 @@ export function ContactForm() {
           placeholder="your.email@example.com"
           {...register('email')}
           aria-invalid={errors.email ? 'true' : 'false'}
+          aria-describedby={errors.email ? 'email-error' : undefined}
           disabled={isSubmitting}
         />
         {errors.email && (
-          <p className="text-sm text-destructive">{errors.email.message}</p>
+          <p id="email-error" role="alert" className="text-sm text-destructive">{errors.email.message}</p>
         )}
       </div>
 
@@ -107,10 +109,11 @@ export function ContactForm() {
           placeholder="619-928-9160"
           {...register('phone')}
           aria-invalid={errors.phone ? 'true' : 'false'}
+          aria-describedby={errors.phone ? 'phone-error' : undefined}
           disabled={isSubmitting}
         />
         {errors.phone && (
-          <p className="text-sm text-destructive">{errors.phone.message}</p>
+          <p id="phone-error" role="alert" className="text-sm text-destructive">{errors.phone.message}</p>
         )}
       </div>
 
@@ -123,6 +126,7 @@ export function ContactForm() {
           {...register('service')}
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           aria-invalid={errors.service ? 'true' : 'false'}
+          aria-describedby={errors.service ? 'service-error' : undefined}
           disabled={isSubmitting}
         >
           <option value="">Select a service</option>
@@ -133,7 +137,7 @@ export function ContactForm() {
           ))}
         </select>
         {errors.service && (
-          <p className="text-sm text-destructive">{errors.service.message}</p>
+          <p id="service-error" role="alert" className="text-sm text-destructive">{errors.service.message}</p>
         )}
       </div>
 
@@ -145,10 +149,11 @@ export function ContactForm() {
           rows={5}
           {...register('message')}
           aria-invalid={errors.message ? 'true' : 'false'}
+          aria-describedby={errors.message ? 'message-error' : undefined}
           disabled={isSubmitting}
         />
         {errors.message && (
-          <p className="text-sm text-destructive">{errors.message.message}</p>
+          <p id="message-error" role="alert" className="text-sm text-destructive">{errors.message.message}</p>
         )}
         <p className="text-sm text-muted-foreground">
           We understand this is a difficult time. We&apos;re here to help.
@@ -156,7 +161,7 @@ export function ContactForm() {
       </div>
 
       {submitError && (
-        <div className="rounded-md bg-destructive/10 p-4">
+        <div role="alert" className="rounded-md bg-destructive/10 p-4">
           <p className="text-sm text-destructive">{submitError}</p>
         </div>
       )}

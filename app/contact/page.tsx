@@ -2,13 +2,17 @@ import type { Metadata } from 'next';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { ContactForm } from '@/components/forms/contact-form';
-import { Card, CardContent } from '@/components/ui/card';
 import { FadeIn } from '@/components/animations/motion-primitives';
 
 export const metadata: Metadata = {
-  title: 'Contact Us',
+  title: 'Contact Us - Schedule a Consultation',
   description:
-    'Contact Water & Ash Burials for sea burial services in San Diego. Call 619-928-9160 or fill out our form. We are here to help during this difficult time.',
+    'Contact Water & Ash Burials for sea burial services in San Diego. Call 619-928-9160 or fill out our form. We respond within hours and are here to help.',
+  openGraph: {
+    title: 'Contact Water & Ash Burials',
+    description:
+      'Schedule a consultation for sea burial services in San Diego. Call 619-928-9160 or send us a message.',
+  },
 };
 
 const contactInfo = [
@@ -42,10 +46,10 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-16 md:py-24">
+      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-20 md:py-28">
         <Container>
           <FadeIn className="mx-auto max-w-3xl text-center">
-            <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               Contact Us
             </h1>
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
@@ -58,12 +62,12 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-16">
+      <section className="py-20 md:py-28">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2">
             {/* Contact Information */}
             <div>
-              <h2 className="font-serif text-3xl font-bold">Get in Touch</h2>
+              <h2 className="font-serif text-3xl font-bold sm:text-4xl">Get in Touch</h2>
               <p className="mt-4 text-muted-foreground">
                 You can reach us by phone, email, or using the contact form.
                 We typically respond within a few hours during business hours.
@@ -71,28 +75,28 @@ export default function ContactPage() {
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 {contactInfo.map((item) => (
-                  <Card key={item.label}>
-                    <CardContent className="p-6">
-                      <div className="flex items-center gap-3">
-                        <item.icon className="h-6 w-6 text-primary" />
-                        <div>
-                          <p className="text-sm text-muted-foreground">
-                            {item.label}
-                          </p>
-                          {item.href ? (
-                            <a
-                              href={item.href}
-                              className="font-medium hover:text-primary transition-colors"
-                            >
-                              {item.value}
-                            </a>
-                          ) : (
-                            <p className="font-medium">{item.value}</p>
-                          )}
-                        </div>
+                  <div key={item.label} className="card-premium rounded-2xl p-6">
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20">
+                        <item.icon className="h-5 w-5 text-gold" />
                       </div>
-                    </CardContent>
-                  </Card>
+                      <div>
+                        <p className="text-sm text-muted-foreground">
+                          {item.label}
+                        </p>
+                        {item.href ? (
+                          <a
+                            href={item.href}
+                            className="font-medium hover:text-gold transition-colors"
+                          >
+                            {item.value}
+                          </a>
+                        ) : (
+                          <p className="font-medium">{item.value}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
 
@@ -112,24 +116,22 @@ export default function ContactPage() {
 
             {/* Contact Form */}
             <div>
-              <Card>
-                <CardContent className="p-8">
-                  <h2 className="font-serif text-2xl font-bold mb-6">
-                    Send Us a Message
-                  </h2>
-                  <ContactForm />
-                </CardContent>
-              </Card>
+              <div className="card-premium rounded-2xl p-8">
+                <h2 className="font-serif text-2xl font-bold mb-6">
+                  Send Us a Message
+                </h2>
+                <ContactForm />
+              </div>
             </div>
           </div>
         </Container>
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-secondary/30 py-16">
+      <section className="bg-cream py-20 md:py-28">
         <Container>
           <div className="mx-auto max-w-3xl">
-            <h2 className="font-serif text-3xl font-bold text-center">
+            <h2 className="font-serif text-3xl font-bold text-center sm:text-4xl">
               Common Questions
             </h2>
             <div className="mt-8 space-y-6">

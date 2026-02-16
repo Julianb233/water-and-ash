@@ -5,6 +5,9 @@ import { Container } from '@/components/layout/container';
 import { ServiceCard } from '@/components/services/service-card';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations/motion-primitives';
+import { TestimonialsSection } from '@/components/testimonials/testimonial-card';
+import { FAQSection } from '@/components/faq/faq-section';
+import { PhotoGallery } from '@/components/gallery/photo-gallery';
 
 const services = [
   {
@@ -207,6 +210,15 @@ export default function HomePage() {
           <div className="mt-16 divider-gold max-w-xs mx-auto" />
         </Container>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+
+      {/* FAQ Section */}
+      <FAQSection />
+
+      {/* Photo Gallery Section */}
+      <PhotoGallery />
 
       {/* CTA Section */}
       <section className="py-20 md:py-28 relative overflow-hidden">

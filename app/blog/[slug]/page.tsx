@@ -8,6 +8,7 @@ import { ShareButtons } from '@/components/blog/share-buttons';
 import { BlogCard } from '@/components/blog/blog-card';
 import { blogPosts, getBlogPost, getAllSlugs } from '@/lib/blog';
 import { FadeIn } from '@/components/animations/motion-primitives';
+import { ArticleStructuredData } from '@/components/structured-data';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -136,6 +137,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
+      <ArticleStructuredData
+        title={post.title}
+        description={post.excerpt}
+        datePublished={post.date}
+        author={post.author}
+        imageUrl={post.imageUrl}
+        url={postUrl}
+      />
       {/* Hero Image */}
       <section className="relative h-[40vh] sm:h-[50vh] min-h-[300px]">
         <Image

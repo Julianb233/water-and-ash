@@ -1,15 +1,19 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Heart, Waves, Users } from 'lucide-react';
+import { Heart, Waves, Users, ArrowRight } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { FadeIn } from '@/components/animations/motion-primitives';
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations/motion-primitives';
 
 export const metadata: Metadata = {
-  title: 'Give Back',
+  title: 'Give Back - Community & Conservation',
   description:
-    'Learn about Water & Ash Burials community initiatives, including ocean conservation, grief support, and veteran services.',
+    'Water & Ash Burials supports San Diego through ocean conservation, grief counseling referrals, and veteran memorial services. Learn about our community initiatives.',
+  openGraph: {
+    title: 'Give Back | Water & Ash Burials',
+    description:
+      'Our community initiatives include ocean conservation, grief support resources, and special veteran services in San Diego.',
+  },
 };
 
 const initiatives = [
@@ -37,10 +41,10 @@ export default function GiveBackPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-16 md:py-24">
+      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-20 md:py-28">
         <Container>
           <FadeIn className="mx-auto max-w-3xl text-center">
-            <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               Giving Back to Our Community
             </h1>
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
@@ -52,43 +56,43 @@ export default function GiveBackPage() {
       </section>
 
       {/* Initiatives Section */}
-      <section className="py-16">
+      <section className="py-20 md:py-28">
         <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-serif text-3xl font-bold text-foreground">
+          <FadeIn className="mx-auto max-w-2xl text-center">
+            <h2 className="font-serif text-3xl font-bold text-foreground sm:text-4xl">
               Our Initiatives
             </h2>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-lg text-muted-foreground">
               These programs reflect our commitment to the San Diego community
               and the ocean we depend on.
             </p>
-          </div>
+          </FadeIn>
 
-          <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerContainer className="mx-auto mt-16 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {initiatives.map((initiative) => (
-              <Card key={initiative.title}>
-                <CardContent className="p-8 text-center">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                    <initiative.icon className="h-8 w-8 text-primary" />
+              <StaggerItem key={initiative.title}>
+                <div className="card-premium rounded-2xl p-8 text-center h-full">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20">
+                    <initiative.icon className="h-8 w-8 text-gold" />
                   </div>
-                  <h3 className="mt-6 font-serif text-xl font-semibold">
+                  <h3 className="mt-6 font-serif text-xl font-semibold text-foreground">
                     {initiative.title}
                   </h3>
-                  <p className="mt-3 text-muted-foreground">
+                  <p className="mt-3 text-muted-foreground leading-relaxed">
                     {initiative.description}
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </Container>
       </section>
 
       {/* Ocean Conservation Details */}
-      <section className="bg-secondary/30 py-16">
+      <section className="bg-cream py-20 md:py-28">
         <Container>
           <div className="mx-auto max-w-3xl">
-            <h2 className="font-serif text-3xl font-bold text-center">
+            <h2 className="font-serif text-3xl font-bold text-center sm:text-4xl">
               Protecting Our Ocean
             </h2>
             <p className="mt-6 text-lg text-muted-foreground">
@@ -134,31 +138,34 @@ export default function GiveBackPage() {
       </section>
 
       {/* Veteran Services */}
-      <section className="py-16">
+      <section className="py-20 md:py-28">
         <Container>
-          <div className="mx-auto max-w-3xl">
-            <h2 className="font-serif text-3xl font-bold text-center">
+          <FadeIn className="mx-auto max-w-3xl text-center">
+            <h2 className="font-serif text-3xl font-bold sm:text-4xl">
               Honoring Those Who Served
             </h2>
-            <p className="mt-6 text-lg text-muted-foreground text-center">
+            <p className="mt-6 text-lg text-muted-foreground">
               Veterans and active military families receive special consideration
               for our services. Contact us to learn about our veteran pricing and
               how we can help honor your loved one&apos;s service.
             </p>
-            <div className="mt-8 text-center">
-              <Button asChild size="lg">
-                <Link href="/contact">Contact Us About Veteran Services</Link>
+            <div className="mt-10">
+              <Button asChild size="lg" className="btn-gold border-0 rounded-full text-base px-8 h-14">
+                <Link href="/contact">
+                  Contact Us About Veteran Services
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
             </div>
-          </div>
+          </FadeIn>
         </Container>
       </section>
 
       {/* Grief Resources */}
-      <section className="bg-secondary/30 py-16">
+      <section className="bg-cream py-20 md:py-28">
         <Container>
           <div className="mx-auto max-w-3xl">
-            <h2 className="font-serif text-3xl font-bold text-center">
+            <h2 className="font-serif text-3xl font-bold text-center sm:text-4xl">
               Grief Support Resources
             </h2>
             <p className="mt-6 text-lg text-muted-foreground">
@@ -202,22 +209,26 @@ export default function GiveBackPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-serif text-3xl font-bold">
+      <section className="py-20 md:py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-navy" />
+        <Container className="relative">
+          <FadeIn className="mx-auto max-w-2xl text-center">
+            <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">
               Let Us Help You
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
+            <p className="mt-6 text-lg text-white/80 leading-relaxed">
               Whether you need information about our services or grief support
               resources, we&apos;re here for you.
             </p>
-            <div className="mt-8">
-              <Button asChild size="lg">
-                <Link href="/contact">Contact Us</Link>
+            <div className="mt-10">
+              <Button asChild size="lg" className="btn-gold border-0 rounded-full text-base px-8 h-14">
+                <Link href="/contact">
+                  Contact Us
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
             </div>
-          </div>
+          </FadeIn>
         </Container>
       </section>
     </>

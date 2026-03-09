@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Blog',
   description:
     'Insights on sea burials, grief healing, ocean conservation, and news from Water & Ash Burials in San Diego.',
+  alternates: { canonical: '/blog' },
   openGraph: {
     title: 'Blog | Water & Ash Burials',
     description:

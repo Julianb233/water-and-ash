@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Thank You',
   description:
     'Thank you for contacting Water & Ash Burials. We will respond to your inquiry shortly.',
+  alternates: { canonical: '/thank-you' },
 };
 
 export default function ThankYouPage() {

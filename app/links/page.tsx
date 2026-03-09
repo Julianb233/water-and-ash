@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: 'Links',
   description:
     'Connect with Water & Ash Burials - schedule a consultation, explore our services, read our blog, and follow us on social media.',
+  alternates: { canonical: '/links' },
 };
 
 const links = [

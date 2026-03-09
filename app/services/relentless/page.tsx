@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'Relentless - 45ft Bali Catamaran',
   description:
     'Spacious sea burial ceremonies aboard a stable 45-foot Bali Catamaran in San Diego. Capacity for up to 15 passengers. All-inclusive at $2,000.',
+  alternates: { canonical: '/services/relentless' },
   openGraph: {
     title: 'Relentless - 45ft Bali Catamaran | Water & Ash Burials',
     description:

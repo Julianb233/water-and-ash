@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'At-Home Memorial - Mail-in Sea Burial Service',
   description:
     'Affordable mail-in sea burial service for $400. We perform the ceremony on your behalf in San Diego and provide GPS coordinates, certificate, photographs, and detailed report.',
+  alternates: { canonical: '/services/at-home' },
   openGraph: {
     title: 'At-Home Memorial - Mail-in Service | Water & Ash Burials',
     description:

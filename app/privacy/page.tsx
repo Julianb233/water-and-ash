@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
     'Privacy policy for Water & Ash Burials. Learn how we collect, use, and protect your personal information when using our sea burial services.',
+  alternates: { canonical: '/privacy' },
   robots: {
     index: true,
     follow: true,

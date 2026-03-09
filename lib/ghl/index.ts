@@ -1,10 +1,19 @@
 /**
  * GoHighLevel API client
  *
- * Handles opportunity stage updates triggered by Stripe webhook events.
+ * Handles:
+ * - Opportunity stage updates (Stripe webhook → pipeline)
+ * - Per-vessel calendar availability and booking with conflict detection
  */
 
-export { type DayAvailability, type AvailableSlot } from './types';
+export { type DayAvailability, type AvailableSlot, type BookingRequest, type BookingResponse } from './types';
+export {
+  getVesselAvailability,
+  createBooking,
+  getVessel,
+  VESSELS,
+  BookingConflictError,
+} from './calendar';
 
 const GHL_API_BASE = 'https://services.leadconnectorhq.com';
 

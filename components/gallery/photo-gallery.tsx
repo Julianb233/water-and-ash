@@ -75,7 +75,7 @@ export function PhotoGallery() {
                   sizes={image.sizes}
                 />
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/40 transition-colors duration-500 flex items-end">
+                <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/40 transition-colors duration-500 flex items-end" aria-hidden="true">
                   <p className="text-white text-sm p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-2 group-hover:translate-y-0">
                     {image.alt}
                   </p>

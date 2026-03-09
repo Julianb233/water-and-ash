@@ -136,8 +136,8 @@ export async function captureLead(
     ? GHL_CONFIG.pipelines.b2b
     : GHL_CONFIG.pipelines.b2c;
   const initialStage = isB2B
-    ? pipeline.stages.partnerInquiry
-    : pipeline.stages.inquiry;
+    ? GHL_CONFIG.pipelines.b2b.stages.partnerInquiry
+    : GHL_CONFIG.pipelines.b2c.stages.inquiry;
 
   const monetaryValue = getMonetaryValue(data.service);
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const services = [
   { value: 'osprey', label: 'The Osprey' },
@@ -19,10 +19,39 @@ const services = [
   { value: 'general', label: 'General Inquiry' },
 ];
 
-export function ContactForm() {
+interface ContactFormProps {
+  /** Lead source identifier for CRM tracking [CRM-02] */
+  source?: string;
+  /** Lead segment for pipeline routing [CRM-05, CRM-06] */
+  segment?: string;
+  /** Custom submit button text */
+  submitLabel?: string;
+}
+
+export function ContactForm({
+  source = 'website-contact',
+  segment = 'direct-consumer',
+  submitLabel = 'Send Message',
+}: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Extract UTM parameters for lead source tracking [CRM-02, LAND-06]
+  const [utmParams, setUtmParams] = useState<{
+    utmSource?: string;
+    utmMedium?: string;
+    utmCampaign?: string;
+  }>({});
+
+  useEffect(() => {
+    setUtmParams({
+      utmSource: searchParams.get('utm_source') || undefined,
+      utmMedium: searchParams.get('utm_medium') || undefined,
+      utmCampaign: searchParams.get('utm_campaign') || undefined,
+    });
+  }, [searchParams]);
 
   const {
     register,
@@ -42,7 +71,12 @@ export function ContactForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          source,
+          segment,
+          ...utmParams,
+        }),
       });
 
       if (!response.ok) {
@@ -173,7 +207,7 @@ export function ContactForm() {
             Sending...
           </>
         ) : (
-          'Send Message'
+          submitLabel
         )}
       </Button>
     </form>

@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { Container } from '@/components/layout/container';
@@ -120,7 +121,9 @@ export default function ContactPage() {
                 <h2 className="font-serif text-2xl font-bold mb-6">
                   Send Us a Message
                 </h2>
-                <ContactForm />
+                <Suspense fallback={<div className="animate-pulse space-y-4"><div className="h-10 bg-muted rounded" /><div className="h-10 bg-muted rounded" /><div className="h-10 bg-muted rounded" /><div className="h-10 bg-muted rounded" /><div className="h-24 bg-muted rounded" /></div>}>
+                  <ContactForm />
+                </Suspense>
               </div>
             </div>
           </div>

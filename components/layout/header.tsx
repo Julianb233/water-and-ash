@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Menu, X, ChevronDown, Phone } from 'lucide-react';
 import { Container } from './container';
 import { Button } from '@/components/ui/button';
@@ -27,13 +27,56 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close menus on Escape key (WCAG 2.1.1 Keyboard)
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      if (servicesOpen) {
+        setServicesOpen(false);
+      }
+      if (mobileMenuOpen) {
+        setMobileMenuOpen(false);
+        mobileToggleRef.current?.focus();
+      }
+    }
+  }, [mobileMenuOpen, servicesOpen]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
+  // Lock body scroll when mobile menu is open (prevents background scrolling on iOS)
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setServicesOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -43,18 +86,22 @@ export function Header() {
           ? 'glass-light shadow-lg'
           : 'bg-transparent'
       }`}
+      role="banner"
     >
       <Container>
-        <nav className="flex items-center justify-between py-4" aria-label="Global">
+        <nav className="flex items-center justify-between py-4" aria-label="Main navigation">
           <div className="flex lg:flex-1">
             <Logo variant="dark" size="md" />
           </div>
 
           <div className="flex lg:hidden">
             <button
+              ref={mobileToggleRef}
               type="button"
               className="inline-flex items-center justify-center rounded-lg p-2.5 text-foreground hover:bg-secondary/50 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               <span className="sr-only">
                 {mobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -67,18 +114,32 @@ export function Header() {
             </button>
           </div>
 
+          {/* Desktop navigation */}
           <div className="hidden lg:flex lg:gap-x-8">
             {navigation.map((item) => (
               <div key={item.name} className="relative">
                 {item.dropdown ? (
                   <div
+                    ref={dropdownRef}
                     className="relative"
                     onMouseEnter={() => setServicesOpen(true)}
                     onMouseLeave={() => setServicesOpen(false)}
                   >
                     <button
                       aria-expanded={servicesOpen}
-                      aria-label="Services menu"
+                      aria-haspopup="true"
+                      aria-controls="services-dropdown"
+                      onClick={() => setServicesOpen(!servicesOpen)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setServicesOpen(!servicesOpen);
+                        }
+                        if (e.key === 'ArrowDown' && !servicesOpen) {
+                          e.preventDefault();
+                          setServicesOpen(true);
+                        }
+                      }}
                       className="flex items-center gap-1 text-sm font-medium leading-6 text-foreground hover:text-gold transition-colors py-2"
                     >
                       {item.name}
@@ -90,13 +151,20 @@ export function Header() {
                       />
                     </button>
                     {servicesOpen && (
-                      <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-72">
+                      <div
+                        id="services-dropdown"
+                        className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-72"
+                        role="menu"
+                        aria-label="Services submenu"
+                      >
                         <div className="glass-light rounded-xl p-2 shadow-xl">
                           {item.dropdown.map((service) => (
                             <Link
                               key={service.name}
                               href={service.href}
                               className="block px-4 py-3 rounded-lg hover:bg-gold/10 transition-colors group"
+                              role="menuitem"
+                              onClick={() => setServicesOpen(false)}
                             >
                               <span className="block text-sm font-semibold text-foreground group-hover:text-gold transition-colors">
                                 {service.name}
@@ -139,11 +207,15 @@ export function Header() {
 
         {/* Mobile menu */}
         <div
+          id="mobile-menu"
           className={`lg:hidden glass-light rounded-2xl mb-4 p-4 transition-all duration-300 ease-in-out overflow-hidden ${
             mobileMenuOpen
-              ? 'max-h-[500px] opacity-100 scale-100'
+              ? 'max-h-[80vh] opacity-100 scale-100 overflow-y-auto'
               : 'max-h-0 opacity-0 scale-95 p-0 mb-0 border-0'
           }`}
+          aria-hidden={!mobileMenuOpen}
+          role="navigation"
+          aria-label="Mobile navigation"
         >
           {mobileMenuOpen && (
             <div className="space-y-1">
@@ -154,7 +226,7 @@ export function Header() {
                       <button
                         onClick={() => setServicesOpen(!servicesOpen)}
                         aria-expanded={servicesOpen}
-                        aria-label="Services menu"
+                        aria-haspopup="true"
                         className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-base font-semibold text-foreground hover:bg-gold/10 transition-colors"
                       >
                         {item.name}
@@ -166,7 +238,7 @@ export function Header() {
                         />
                       </button>
                       {servicesOpen && (
-                        <div className="ml-4 mt-1 space-y-1 border-l-2 border-gold/30 pl-4">
+                        <div className="ml-4 mt-1 space-y-1 border-l-2 border-gold/30 pl-4" role="group" aria-label="Service vessels">
                           {item.dropdown.map((service) => (
                             <Link
                               key={service.name}

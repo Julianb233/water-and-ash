@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'About Us - Our Mission & Values',
   description:
     'Learn about Water & Ash Burials, our mission to provide dignified sea burial services, and our commitment to serving San Diego families with compassion and maritime excellence.',
+  alternates: { canonical: '/about' },
   openGraph: {
     title: 'About Water & Ash Burials',
     description:

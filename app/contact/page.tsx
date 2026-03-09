@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Contact Us - Schedule a Consultation',
   description:
     'Contact Water & Ash Burials for sea burial services in San Diego. Call 619-928-9160 or fill out our form. We respond within hours and are here to help.',
+  alternates: { canonical: '/contact' },
   openGraph: {
     title: 'Contact Water & Ash Burials',
     description:

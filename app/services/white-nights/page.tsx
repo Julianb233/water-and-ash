@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'White Nights - 58ft Hatteras Motor Yacht',
   description:
     'Elegant sea burial ceremonies aboard a luxurious 58-foot Hatteras motor yacht in San Diego. Capacity for up to 12 passengers. All-inclusive at $2,000.',
+  alternates: { canonical: '/services/white-nights' },
   openGraph: {
     title: 'White Nights - 58ft Hatteras | Water & Ash Burials',
     description:

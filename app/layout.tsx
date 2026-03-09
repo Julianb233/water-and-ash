@@ -43,6 +43,9 @@ export const metadata: Metadata = {
     description:
       'Providing compassionate sea burial and memorial services in San Diego, California.',
   },
+  alternates: {
+    canonical: '/',
+  },
   robots: {
     index: true,
     follow: true,

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'The Osprey - 62ft Striker Sea Burial Vessel',
   description:
     'Our flagship 62-foot Striker offers a dignified sea burial experience in San Diego with capacity for up to 13 passengers. All-inclusive at $2,000.',
+  alternates: { canonical: '/services/osprey' },
   openGraph: {
     title: 'The Osprey - 62ft Striker | Water & Ash Burials',
     description:

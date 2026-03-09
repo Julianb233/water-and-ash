@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Give Back - Community & Conservation',
   description:
     'Water & Ash Burials supports San Diego through ocean conservation, grief counseling referrals, and veteran memorial services. Learn about our community initiatives.',
+  alternates: { canonical: '/give-back' },
   openGraph: {
     title: 'Give Back | Water & Ash Burials',
     description:

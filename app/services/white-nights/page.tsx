@@ -120,8 +120,8 @@ export default function WhiteNightsPage() {
 
                 <div className="mt-8">
                   <Button asChild size="lg" className="w-full btn-gold border-0 rounded-full h-14">
-                    <Link href="/contact">
-                      Contact Us
+                    <Link href="/book?vessel=white-nights">
+                      Book Now
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
@@ -173,7 +173,7 @@ export default function WhiteNightsPage() {
 
             <div className="mt-12 text-center">
               <Button asChild size="lg" className="btn-gold border-0 rounded-full text-base px-8 h-14">
-                <Link href="/contact">
+                <Link href="/book?vessel=white-nights">
                   Schedule a Consultation
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>

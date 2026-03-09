@@ -122,35 +122,39 @@ export function Footer() {
             {/* Services */}
             <div>
               <h3 className="font-serif text-lg font-semibold text-white mb-6">Our Vessels</h3>
-              <ul className="space-y-4">
-                {navigation.services.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-white/70 hover:text-gold transition-colors text-sm"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <nav aria-label="Vessel services">
+                <ul className="space-y-4">
+                  {navigation.services.map((item) => (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        className="text-white/70 hover:text-gold transition-colors text-sm"
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </div>
 
             {/* Company */}
             <div>
               <h3 className="font-serif text-lg font-semibold text-white mb-6">Company</h3>
-              <ul className="space-y-4">
-                {navigation.company.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-white/70 hover:text-gold transition-colors text-sm"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <nav aria-label="Company links">
+                <ul className="space-y-4">
+                  {navigation.company.map((item) => (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        className="text-white/70 hover:text-gold transition-colors text-sm"
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </div>
           </div>
 

@@ -2,7 +2,7 @@
 
 import { Quote } from 'lucide-react';
 import { Container } from '@/components/layout/container';
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations/motion-primitives';
+import { FadeIn, StaggerContainer, StaggerItem, ScaleIn } from '@/components/animations/motion-primitives';
 
 const testimonials = [
   {
@@ -45,27 +45,29 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className="py-20 md:py-28 bg-cream">
+    <section className="py-16 md:py-24 bg-cream">
       <Container>
         <FadeIn className="mx-auto max-w-2xl text-center">
           <h2 className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
             Words from{' '}
             <span className="text-gradient-gold">Families We&apos;ve Served</span>
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-base sm:text-lg text-muted-foreground">
             Every ceremony is a privilege. Here is what families have shared about
             their experience with Water &amp; Ash.
           </p>
         </FadeIn>
 
-        <StaggerContainer className="mx-auto mt-16 grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerContainer className="mx-auto mt-12 sm:mt-16 grid max-w-6xl gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
             <StaggerItem key={testimonial.name}>
-              <div className="card-premium rounded-2xl p-8 h-full flex flex-col">
+              <div className="card-premium rounded-2xl p-6 sm:p-8 h-full flex flex-col">
                 {/* Quote icon */}
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20 mb-5">
-                  <Quote className="h-5 w-5 text-gold" />
-                </div>
+                <ScaleIn>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20 mb-4 sm:mb-5">
+                    <Quote className="h-5 w-5 text-gold" />
+                  </div>
+                </ScaleIn>
 
                 {/* Quote text */}
                 <p className="text-muted-foreground leading-relaxed text-sm flex-1 italic">
@@ -73,7 +75,7 @@ export function TestimonialsSection() {
                 </p>
 
                 {/* Attribution */}
-                <div className="mt-6 pt-5 border-t border-gold/15">
+                <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-gold/15">
                   <p className="font-serif font-semibold text-foreground">
                     {testimonial.name}
                   </p>
@@ -87,7 +89,9 @@ export function TestimonialsSection() {
         </StaggerContainer>
 
         {/* Divider */}
-        <div className="mt-16 divider-gold max-w-xs mx-auto" />
+        <FadeIn delay={0.3}>
+          <div className="mt-12 sm:mt-16 divider-gold max-w-xs mx-auto" />
+        </FadeIn>
       </Container>
     </section>
   );

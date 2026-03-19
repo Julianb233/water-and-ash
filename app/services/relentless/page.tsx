@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Ship, Users, Clock, MapPin, Check, ArrowRight } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations/motion-primitives';
+import { FadeIn, StaggerContainer, StaggerItem, AnimatedButton, WaveDivider } from '@/components/animations/motion-primitives';
 import { ServiceStructuredData } from '@/components/structured-data';
 
 export const metadata: Metadata = {

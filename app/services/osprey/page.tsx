@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Ship, Users, Clock, MapPin, Check, ArrowRight } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations/motion-primitives';
+import { FadeIn, StaggerContainer, StaggerItem, AnimatedButton, WaveDivider } from '@/components/animations/motion-primitives';
 import { ServiceStructuredData } from '@/components/structured-data';
 
 export const metadata: Metadata = {
@@ -43,16 +43,16 @@ export default function OspreyPage() {
         url="https://waterandashburials.org/services/osprey"
       />
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-20 md:py-28">
+      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-16 md:py-24">
         <Container>
-          <FadeIn className="mx-auto max-w-3xl text-center">
+          <FadeIn className="mx-auto max-w-3xl text-center" duration={0.8}>
             <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               The Osprey
             </h1>
-            <p className="mt-4 text-xl text-muted-foreground">
-              62-foot Striker • Up to 13 Passengers
+            <p className="mt-4 text-lg sm:text-xl text-muted-foreground">
+              62-foot Striker &bull; Up to 13 Passengers
             </p>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            <p className="mt-6 text-base sm:text-lg leading-8 text-muted-foreground">
               Our flagship vessel offers comfort, stability, and dignity for your
               memorial service. The Osprey is a beautifully maintained sport fishing
               boat perfect for intimate sea burial ceremonies.
@@ -62,7 +62,7 @@ export default function OspreyPage() {
       </section>
 
       {/* Details Section */}
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2">
             {/* Service Details */}
@@ -118,12 +118,14 @@ export default function OspreyPage() {
                 </ul>
 
                 <div className="mt-8">
-                  <Button asChild size="lg" className="w-full btn-gold border-0 rounded-full h-14">
-                    <Link href="/contact">
-                      Contact Us
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Link>
-                  </Button>
+                  <AnimatedButton>
+                    <Button asChild size="lg" className="w-full btn-gold border-0 rounded-full h-14">
+                      <Link href="/contact">
+                        Contact Us
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </Button>
+                  </AnimatedButton>
                 </div>
 
                 <p className="mt-4 text-center text-sm text-muted-foreground">
@@ -135,8 +137,11 @@ export default function OspreyPage() {
         </Container>
       </section>
 
+      {/* Wave: Details -> What to Expect */}
+      <WaveDivider fill="var(--color-cream)" variant="gentle" className="bg-background -mb-1" />
+
       {/* What to Expect Section */}
-      <section className="bg-cream py-20 md:py-28">
+      <section className="bg-cream py-16 md:py-24">
         <Container>
           <FadeIn className="mx-auto max-w-3xl">
             <h2 className="font-serif text-3xl font-bold text-center sm:text-4xl">
@@ -170,12 +175,14 @@ export default function OspreyPage() {
             </div>
 
             <div className="mt-12 text-center">
-              <Button asChild size="lg" className="btn-gold border-0 rounded-full text-base px-8 h-14">
-                <Link href="/contact">
-                  Schedule a Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
+              <AnimatedButton className="inline-block">
+                <Button asChild size="lg" className="btn-gold border-0 rounded-full text-base px-8 h-14">
+                  <Link href="/contact">
+                    Schedule a Consultation
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </AnimatedButton>
             </div>
           </FadeIn>
         </Container>

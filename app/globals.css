@@ -228,4 +228,109 @@
   .animate-accordion-up {
     animation: accordion-up 0.3s ease-out;
   }
+
+  /* Wave section transition fills */
+  .wave-fill-cream {
+    color: var(--color-cream);
+  }
+
+  .wave-fill-background {
+    color: var(--color-background);
+  }
+
+  .wave-fill-navy {
+    color: oklch(0.18 0.05 250);
+  }
+
+  .wave-fill-secondary {
+    color: var(--color-secondary);
+  }
+}
+
+/* ─── Responsive Breakpoint Polish ────────────────────────────── */
+
+/* Extra small: 320px */
+@media (max-width: 359px) {
+  .font-serif {
+    word-break: break-word;
+  }
+
+  /* Tighter padding on very small screens */
+  section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Ensure buttons don't overflow */
+  .btn-gold,
+  .glass {
+    font-size: 0.875rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+/* Small: 375px */
+@media (min-width: 360px) and (max-width: 639px) {
+  /* Stats grid: ensure numbers don't collapse */
+  .grid-cols-1.sm\:grid-cols-3 > div {
+    padding: 0.5rem 0;
+  }
+}
+
+/* ─── Touch Interaction Enhancements ──────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable hover transforms on touch -- rely on tap instead */
+  .card-premium:hover {
+    transform: none;
+  }
+
+  /* Active state for touch feedback */
+  .card-premium:active {
+    transform: scale(0.98);
+    transition: transform 0.15s ease;
+  }
+
+  .btn-gold:active {
+    transform: scale(0.96);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    transition: all 0.15s ease;
+  }
+
+  .btn-gold:hover {
+    transform: none;
+  }
+
+  /* Larger touch targets on mobile */
+  a, button {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ─── Prefers Reduced Motion ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .shimmer::after {
+    animation: none;
+  }
+
+  .card-premium:hover {
+    transform: none;
+  }
+
+  .btn-gold:hover {
+    transform: none;
+  }
 }

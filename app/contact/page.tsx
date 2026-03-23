@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { ContactForm } from '@/components/forms/contact-form';
-import { FadeIn } from '@/components/animations/motion-primitives';
+import { FadeIn, StaggerContainer, StaggerItem, WaveDivider } from '@/components/animations/motion-primitives';
 
 export const metadata: Metadata = {
   title: 'Contact Us - Schedule a Consultation',
@@ -46,13 +46,13 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-20 md:py-28">
+      <section className="relative bg-gradient-to-b from-secondary/30 to-background py-16 md:py-24">
         <Container>
-          <FadeIn className="mx-auto max-w-3xl text-center">
+          <FadeIn className="mx-auto max-w-3xl text-center" duration={0.8}>
             <h1 className="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               Contact Us
             </h1>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            <p className="mt-6 text-base sm:text-lg leading-8 text-muted-foreground">
               We&apos;re here to answer your questions and help you plan a
               meaningful ceremony. Take your time, and reach out whenever you&apos;re
               ready.
@@ -62,43 +62,45 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-24">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-2">
+          <div className="grid gap-8 sm:gap-12 lg:grid-cols-2">
             {/* Contact Information */}
-            <div>
+            <FadeIn direction="left">
               <h2 className="font-serif text-3xl font-bold sm:text-4xl">Get in Touch</h2>
-              <p className="mt-4 text-muted-foreground">
+              <p className="mt-4 text-sm sm:text-base text-muted-foreground">
                 You can reach us by phone, email, or using the contact form.
                 We typically respond within a few hours during business hours.
               </p>
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <StaggerContainer className="mt-6 sm:mt-8 grid gap-3 sm:gap-4 sm:grid-cols-2">
                 {contactInfo.map((item) => (
-                  <div key={item.label} className="card-premium rounded-2xl p-6">
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20">
-                        <item.icon className="h-5 w-5 text-gold" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">
-                          {item.label}
-                        </p>
-                        {item.href ? (
-                          <a
-                            href={item.href}
-                            className="font-medium hover:text-gold transition-colors"
-                          >
-                            {item.value}
-                          </a>
-                        ) : (
-                          <p className="font-medium">{item.value}</p>
-                        )}
+                  <StaggerItem key={item.label}>
+                    <div className="card-premium rounded-2xl p-5 sm:p-6">
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20 shrink-0">
+                          <item.icon className="h-5 w-5 text-gold" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm text-muted-foreground">
+                            {item.label}
+                          </p>
+                          {item.href ? (
+                            <a
+                              href={item.href}
+                              className="font-medium hover:text-gold transition-colors text-sm sm:text-base break-all"
+                            >
+                              {item.value}
+                            </a>
+                          ) : (
+                            <p className="font-medium text-sm sm:text-base">{item.value}</p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerContainer>
 
               <div className="mt-8 rounded-lg bg-secondary/30 p-6">
                 <h3 className="font-semibold text-lg">What to Expect</h3>
@@ -112,69 +114,59 @@ export default function ContactPage() {
                   provide compassionate guidance while handling all the logistics.
                 </p>
               </div>
-            </div>
+            </FadeIn>
 
             {/* Contact Form */}
-            <div>
-              <div className="card-premium rounded-2xl p-8">
+            <FadeIn direction="right" delay={0.2}>
+              <div className="card-premium rounded-2xl p-6 sm:p-8">
                 <h2 className="font-serif text-2xl font-bold mb-6">
                   Send Us a Message
                 </h2>
                 <ContactForm />
               </div>
-            </div>
+            </FadeIn>
           </div>
         </Container>
       </section>
 
+      {/* Wave: Contact -> FAQ */}
+      <WaveDivider fill="var(--color-cream)" variant="gentle" className="bg-background -mb-1" />
+
       {/* FAQ Section */}
-      <section className="bg-cream py-20 md:py-28">
+      <section className="bg-cream py-16 md:py-24">
         <Container>
           <div className="mx-auto max-w-3xl">
-            <h2 className="font-serif text-3xl font-bold text-center sm:text-4xl">
-              Common Questions
-            </h2>
+            <FadeIn>
+              <h2 className="font-serif text-3xl font-bold text-center sm:text-4xl">
+                Common Questions
+              </h2>
+            </FadeIn>
             <div className="mt-8 space-y-6">
-              <div>
-                <h3 className="font-semibold text-lg">
-                  How quickly can you arrange a ceremony?
-                </h3>
-                <p className="mt-2 text-muted-foreground">
-                  We can typically schedule ceremonies within a few days to a week,
-                  depending on vessel availability and weather conditions. We work
-                  with your timeline.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg">
-                  What should I bring to the ceremony?
-                </h3>
-                <p className="mt-2 text-muted-foreground">
-                  Bring the cremated remains in a water-soluble or biodegradable
-                  container. We provide floral tributes. You&apos;re welcome to
-                  bring readings, music, or other personal items.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg">
-                  What if someone gets seasick?
-                </h3>
-                <p className="mt-2 text-muted-foreground">
-                  Our catamaran (Relentless) is the most stable option. We recommend
-                  taking motion sickness medication 30 minutes before departure. The
-                  ceremony location is typically calm.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg">
-                  Do you handle all the permits?
-                </h3>
-                <p className="mt-2 text-muted-foreground">
-                  Yes. We ensure full EPA compliance and handle all regulatory
-                  requirements. You&apos;ll receive official documentation after
-                  the ceremony.
-                </p>
-              </div>
+              {[
+                {
+                  q: 'How quickly can you arrange a ceremony?',
+                  a: 'We can typically schedule ceremonies within a few days to a week, depending on vessel availability and weather conditions. We work with your timeline.',
+                },
+                {
+                  q: 'What should I bring to the ceremony?',
+                  a: "Bring the cremated remains in a water-soluble or biodegradable container. We provide floral tributes. You're welcome to bring readings, music, or other personal items.",
+                },
+                {
+                  q: 'What if someone gets seasick?',
+                  a: 'Our catamaran (Relentless) is the most stable option. We recommend taking motion sickness medication 30 minutes before departure. The ceremony location is typically calm.',
+                },
+                {
+                  q: 'Do you handle all the permits?',
+                  a: "Yes. We ensure full EPA compliance and handle all regulatory requirements. You'll receive official documentation after the ceremony.",
+                },
+              ].map((faq, i) => (
+                <FadeIn key={faq.q} delay={i * 0.1} direction="left">
+                  <div>
+                    <h3 className="font-semibold text-base sm:text-lg">{faq.q}</h3>
+                    <p className="mt-2 text-sm sm:text-base text-muted-foreground">{faq.a}</p>
+                  </div>
+                </FadeIn>
+              ))}
             </div>
           </div>
         </Container>

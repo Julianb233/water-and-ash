@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Camera } from 'lucide-react';
 import { Container } from '@/components/layout/container';
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations/motion-primitives';
+import { FadeIn, StaggerContainer, StaggerItem, ScaleIn } from '@/components/animations/motion-primitives';
 
 const galleryImages = [
   {
@@ -46,7 +46,7 @@ const galleryImages = [
 
 export function PhotoGallery() {
   return (
-    <section className="py-20 md:py-28 bg-cream">
+    <section className="py-16 md:py-24 bg-cream">
       <Container>
         <FadeIn className="mx-auto max-w-2xl text-center">
           <div className="inline-flex items-center gap-2 bg-gold/10 rounded-full px-4 py-2 mb-4">
@@ -57,38 +57,42 @@ export function PhotoGallery() {
             The Beauty of a{' '}
             <span className="text-gradient-gold">Sea Farewell</span>
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-base sm:text-lg text-muted-foreground">
             Every ceremony takes place against the breathtaking backdrop of the
             Pacific Ocean. These moments of beauty bring comfort and peace.
           </p>
         </FadeIn>
 
-        <StaggerContainer className="mx-auto mt-16 max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <StaggerContainer className="mx-auto mt-12 sm:mt-16 max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           {galleryImages.map((image) => (
             <StaggerItem key={image.src} className={image.span}>
-              <div className="group relative rounded-2xl overflow-hidden h-full min-h-[220px] sm:min-h-[240px]">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  sizes={image.sizes}
-                />
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/40 transition-colors duration-500 flex items-end">
-                  <p className="text-white text-sm p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-2 group-hover:translate-y-0">
-                    {image.alt}
-                  </p>
+              <ScaleIn>
+                <div className="group relative rounded-2xl overflow-hidden h-full min-h-[200px] sm:min-h-[240px]">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes={image.sizes}
+                  />
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/40 transition-colors duration-500 flex items-end">
+                    <p className="text-white text-sm p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-2 group-hover:translate-y-0">
+                      {image.alt}
+                    </p>
+                  </div>
+                  {/* Subtle border */}
+                  <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gold/10 group-hover:ring-gold/30 transition-all duration-500" />
                 </div>
-                {/* Subtle border */}
-                <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gold/10 group-hover:ring-gold/30 transition-all duration-500" />
-              </div>
+              </ScaleIn>
             </StaggerItem>
           ))}
         </StaggerContainer>
 
         {/* Divider */}
-        <div className="mt-16 divider-gold max-w-xs mx-auto" />
+        <FadeIn delay={0.3}>
+          <div className="mt-12 sm:mt-16 divider-gold max-w-xs mx-auto" />
+        </FadeIn>
       </Container>
     </section>
   );

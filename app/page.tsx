@@ -4,7 +4,16 @@ import { Heart, Shield, Anchor, Waves, Phone, ArrowRight, Sparkles } from 'lucid
 import { Container } from '@/components/layout/container';
 import { ServiceCard } from '@/components/services/service-card';
 import { Button } from '@/components/ui/button';
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations/motion-primitives';
+import {
+  FadeIn,
+  StaggerContainer,
+  StaggerItem,
+  Parallax,
+  AnimatedButton,
+  WaveDivider,
+  CountUp,
+  Float,
+} from '@/components/animations/motion-primitives';
 import { TestimonialsSection } from '@/components/testimonials/testimonial-card';
 import { FAQSection } from '@/components/faq/faq-section';
 import { PhotoGallery } from '@/components/gallery/photo-gallery';
@@ -72,10 +81,10 @@ const trustPoints = [
 export default function HomePage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
+      {/* Hero Section with Parallax */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        {/* Background Image with Parallax */}
+        <Parallax speed={-0.2} className="absolute inset-0 z-0 -top-[10%] -bottom-[10%]">
           <Image
             src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1080&fit=crop&q=85"
             alt="Peaceful ocean waves at golden hour"
@@ -84,67 +93,87 @@ export default function HomePage() {
             priority
             sizes="100vw"
           />
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 hero-overlay" />
-          {/* Bottom fade for smooth transition */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-        </div>
+        </Parallax>
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 hero-overlay z-[1]" />
+        {/* Bottom fade for smooth transition */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cream to-transparent z-[2]" />
 
         <Container className="relative z-10">
-          <FadeIn className="max-w-3xl">
+          <FadeIn className="max-w-3xl" duration={0.8}>
             {/* Tagline */}
-            <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6">
-              <Waves className="h-4 w-4 text-gold" />
-              <span className="text-sm font-medium text-white/90">San Diego&apos;s Premier Sea Burial Service</span>
-            </div>
+            <Float amplitude={4} duration={5}>
+              <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6">
+                <Waves className="h-4 w-4 text-gold" />
+                <span className="text-sm font-medium text-white/90">San Diego&apos;s Premier Sea Burial Service</span>
+              </div>
+            </Float>
 
-            <h1 className="font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-              Honor Their Memory{' '}
-              <span className="text-gradient-gold">at Sea</span>
-            </h1>
+            <FadeIn delay={0.2} direction="up">
+              <h1 className="font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+                Honor Their Memory{' '}
+                <span className="text-gradient-gold">at Sea</span>
+              </h1>
+            </FadeIn>
 
-            <p className="mt-6 text-lg leading-8 text-white/85 sm:text-xl max-w-2xl">
-              Compassionate, EPA-compliant ocean ceremonies aboard premium vessels.
-              Let the Pacific Ocean be their final resting place, surrounded by the
-              beauty they loved.
-            </p>
+            <FadeIn delay={0.4} direction="up">
+              <p className="mt-6 text-lg leading-8 text-white/85 sm:text-xl max-w-2xl">
+                Compassionate, EPA-compliant ocean ceremonies aboard premium vessels.
+                Let the Pacific Ocean be their final resting place, surrounded by the
+                beauty they loved.
+              </p>
+            </FadeIn>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Button asChild size="lg" className="btn-gold border-0 rounded-full text-base px-8 h-14">
-                <Link href="/contact">
-                  Schedule a Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="glass border-white/30 text-white hover:bg-white/10 rounded-full text-base px-8 h-14"
-              >
-                <Link href="/services/osprey">Explore Our Vessels</Link>
-              </Button>
-            </div>
+            <FadeIn delay={0.6} direction="up">
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                <AnimatedButton>
+                  <Button asChild size="lg" className="btn-gold border-0 rounded-full text-base px-8 h-14 w-full sm:w-auto">
+                    <Link href="/contact">
+                      Schedule a Consultation
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                </AnimatedButton>
+                <AnimatedButton>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="glass border-white/30 text-white hover:bg-white/10 rounded-full text-base px-8 h-14 w-full sm:w-auto"
+                  >
+                    <Link href="/services/osprey">Explore Our Vessels</Link>
+                  </Button>
+                </AnimatedButton>
+              </div>
+            </FadeIn>
 
             {/* Quick Stats */}
-            <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8">
-              {[
-                { value: '10+', label: 'Years Experience' },
-                { value: '500+', label: 'Families Served' },
-                { value: '100%', label: 'EPA Compliant' },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="text-3xl font-bold text-gold sm:text-4xl">{stat.value}</div>
-                  <div className="text-sm text-white/70 mt-1">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+            <FadeIn delay={0.8} direction="up">
+              <div className="mt-16 grid grid-cols-3 gap-4 sm:gap-8">
+                {[
+                  { value: '10+', label: 'Years Experience' },
+                  { value: '500+', label: 'Families Served' },
+                  { value: '100%', label: 'EPA Compliant' },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center">
+                    <CountUp
+                      value={stat.value}
+                      className="text-2xl font-bold text-gold sm:text-3xl md:text-4xl"
+                    />
+                    <div className="text-xs text-white/70 mt-1 sm:text-sm">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
           </FadeIn>
         </Container>
       </section>
 
+      {/* Wave: Hero -> Services */}
+      <WaveDivider fill="var(--color-cream)" variant="gentle" className="wave-fill-cream -mt-1 bg-transparent" />
+
       {/* Services Section */}
-      <section className="py-20 md:py-28 bg-cream">
+      <section className="py-16 md:py-24 bg-cream">
         <Container>
           <FadeIn className="mx-auto max-w-2xl text-center">
             <div className="inline-flex items-center gap-2 bg-gold/10 rounded-full px-4 py-2 mb-4">
@@ -160,7 +189,7 @@ export default function HomePage() {
             </p>
           </FadeIn>
 
-          <StaggerContainer className="mx-auto mt-16 grid max-w-6xl gap-8 sm:grid-cols-2">
+          <StaggerContainer className="mx-auto mt-16 grid max-w-6xl gap-6 sm:gap-8 sm:grid-cols-2">
             {services.map((service) => (
               <StaggerItem key={service.name}>
                 <ServiceCard {...service} />
@@ -170,8 +199,11 @@ export default function HomePage() {
         </Container>
       </section>
 
+      {/* Wave: Services -> Trust */}
+      <WaveDivider fill="var(--color-cream)" variant="dramatic" flip className="bg-background -mb-1" />
+
       {/* Trust Section */}
-      <section className="py-20 md:py-28 relative overflow-hidden">
+      <section className="py-16 md:py-24 relative overflow-hidden">
         {/* Decorative background */}
         <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/30 to-background" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
@@ -188,17 +220,17 @@ export default function HomePage() {
             </p>
           </FadeIn>
 
-          <StaggerContainer className="mx-auto mt-16 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerContainer className="mx-auto mt-16 grid max-w-5xl gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {trustPoints.map((point) => (
               <StaggerItem key={point.title}>
-                <div className="card-premium rounded-2xl p-8 text-center h-full">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20">
-                    <point.icon className="h-8 w-8 text-gold" />
+                <div className="card-premium rounded-2xl p-6 sm:p-8 text-center h-full">
+                  <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20">
+                    <point.icon className="h-7 w-7 sm:h-8 sm:w-8 text-gold" />
                   </div>
-                  <h3 className="mt-6 font-serif text-xl font-semibold text-foreground">
+                  <h3 className="mt-5 sm:mt-6 font-serif text-lg sm:text-xl font-semibold text-foreground">
                     {point.title}
                   </h3>
-                  <p className="mt-3 text-muted-foreground leading-relaxed">
+                  <p className="mt-2 sm:mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
                     {point.description}
                   </p>
                 </div>
@@ -207,21 +239,39 @@ export default function HomePage() {
           </StaggerContainer>
 
           {/* Divider */}
-          <div className="mt-16 divider-gold max-w-xs mx-auto" />
+          <FadeIn delay={0.3}>
+            <div className="mt-16 divider-gold max-w-xs mx-auto" />
+          </FadeIn>
         </Container>
       </section>
+
+      {/* Wave: Trust -> Testimonials */}
+      <WaveDivider fill="var(--color-cream)" variant="double" className="-mb-1 bg-background" />
 
       {/* Testimonials Section */}
       <TestimonialsSection />
 
+      {/* Wave: Testimonials -> FAQ */}
+      <WaveDivider fill="var(--color-cream)" variant="gentle" flip className="bg-background -mb-1" />
+
       {/* FAQ Section */}
       <FAQSection />
+
+      {/* Wave: FAQ -> Gallery */}
+      <WaveDivider fill="var(--color-background)" variant="dramatic" flip className="bg-cream -mb-1" />
 
       {/* Photo Gallery Section */}
       <PhotoGallery />
 
+      {/* Wave: Gallery -> CTA */}
+      <WaveDivider
+        fill="oklch(0.18 0.05 250)"
+        variant="double"
+        className="bg-cream -mb-1"
+      />
+
       {/* CTA Section */}
-      <section className="py-20 md:py-28 relative overflow-hidden">
+      <section className="py-16 md:py-24 relative overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-navy" />
         <div className="absolute inset-0 opacity-10">
@@ -238,36 +288,44 @@ export default function HomePage() {
             <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl md:text-5xl">
               We&apos;re Here When You Need Us
             </h2>
-            <p className="mt-6 text-lg text-white/80 leading-relaxed">
+            <p className="mt-6 text-base sm:text-lg text-white/80 leading-relaxed">
               Whether you&apos;re planning ahead or need immediate assistance,
               our compassionate team is ready to help guide you through every step.
-              Take your time — there&apos;s no pressure.
+              Take your time -- there&apos;s no pressure.
             </p>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Button asChild size="lg" className="btn-gold border-0 rounded-full text-base px-8 h-14">
-                <Link href="/contact">
-                  Start a Conversation
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="glass border-white/30 text-white hover:bg-white/10 rounded-full text-base px-8 h-14"
-              >
-                <a href="tel:619-928-9160" className="flex items-center gap-2">
-                  <Phone className="h-5 w-5" />
-                  Call 619-928-9160
-                </a>
-              </Button>
-            </div>
+            <FadeIn delay={0.2} direction="up">
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+                <AnimatedButton>
+                  <Button asChild size="lg" className="btn-gold border-0 rounded-full text-base px-8 h-14 w-full sm:w-auto">
+                    <Link href="/contact">
+                      Start a Conversation
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                </AnimatedButton>
+                <AnimatedButton>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="glass border-white/30 text-white hover:bg-white/10 rounded-full text-base px-8 h-14 w-full sm:w-auto"
+                  >
+                    <a href="tel:619-928-9160" className="flex items-center gap-2">
+                      <Phone className="h-5 w-5" />
+                      Call 619-928-9160
+                    </a>
+                  </Button>
+                </AnimatedButton>
+              </div>
+            </FadeIn>
 
             {/* Hours note */}
-            <p className="mt-8 text-sm text-white/60">
-              Available 7 days a week, 8am - 6pm Pacific
-            </p>
+            <FadeIn delay={0.4}>
+              <p className="mt-8 text-sm text-white/60">
+                Available 7 days a week, 8am - 6pm Pacific
+              </p>
+            </FadeIn>
           </FadeIn>
         </Container>
       </section>

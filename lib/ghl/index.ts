@@ -14,38 +14,30 @@ export {
   VESSELS,
   BookingConflictError,
 } from './calendar';
+export {
+  createOpportunity,
+  moveOpportunityToStage,
+  getOpportunity,
+  getOpportunitiesByContact,
+  getStageId,
+  PIPELINE_STAGES,
+  type PipelineStage,
+  type CreateOpportunityInput,
+  type Opportunity,
+} from './pipeline';
 
-const GHL_API_BASE = 'https://services.leadconnectorhq.com';
-
-interface GHLConfig {
-  apiKey: string;
-  locationId: string;
-}
-
-function getConfig(): GHLConfig {
-  const apiKey = process.env.GHL_API_KEY;
-  const locationId = process.env.GHL_LOCATION_ID;
-
-  if (!apiKey) {
-    throw new Error('GHL_API_KEY environment variable is required');
-  }
-  if (!locationId) {
-    throw new Error('GHL_LOCATION_ID environment variable is required');
-  }
-
-  return { apiKey, locationId };
-}
+import { moveOpportunityToStage } from './pipeline';
+import type { PipelineStage } from './pipeline';
 
 /**
- * GHL pipeline stage mapping.
- * Maps human-readable stage names to GHL pipeline stage IDs.
- * These IDs must match the pipeline configuration in GHL.
+ * Legacy stage name → pipeline stage key mapping.
+ * Used by the Stripe webhook which passes human-readable names.
  */
-const STAGE_MAP: Record<string, string> = {
-  'New Lead': process.env.GHL_STAGE_NEW_LEAD || '',
-  'Deposit Paid': process.env.GHL_STAGE_DEPOSIT_PAID || '',
-  'Ceremony Scheduled': process.env.GHL_STAGE_CEREMONY_SCHEDULED || '',
-  'Completed': process.env.GHL_STAGE_COMPLETED || '',
+const LEGACY_STAGE_MAP: Record<string, PipelineStage> = {
+  'New Lead': 'inquiry',
+  'Deposit Paid': 'deposit',
+  'Ceremony Scheduled': 'confirmed',
+  'Completed': 'complete',
 };
 
 /**
@@ -53,41 +45,21 @@ const STAGE_MAP: Record<string, string> = {
  *
  * Called by the Stripe webhook handler after successful payment
  * to move the opportunity to "Deposit Paid" stage (PAY-04).
+ *
+ * Accepts legacy stage names (for backward compat) or pipeline stage keys.
  */
 export async function updateOpportunityStage(
   opportunityId: string,
   stageName: string
 ): Promise<void> {
-  const { apiKey } = getConfig();
-  const pipelineStageId = STAGE_MAP[stageName];
+  const pipelineStage = LEGACY_STAGE_MAP[stageName];
 
-  if (!pipelineStageId) {
+  if (!pipelineStage) {
     console.warn(
-      `[ghl] No stage ID mapped for "${stageName}". Check GHL_STAGE_* env vars.`
+      `[ghl] No stage mapped for "${stageName}". Valid names: ${Object.keys(LEGACY_STAGE_MAP).join(', ')}`
     );
-    // Don't throw — log and continue so webhook returns 200
     return;
   }
 
-  const response = await fetch(
-    `${GHL_API_BASE}/opportunities/${opportunityId}`,
-    {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        Version: '2021-07-28',
-      },
-      body: JSON.stringify({
-        pipelineStageId,
-      }),
-    }
-  );
-
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(
-      `GHL API error (${response.status}): ${errorBody}`
-    );
-  }
+  await moveOpportunityToStage(opportunityId, pipelineStage);
 }

@@ -14,6 +14,19 @@ export {
   VESSELS,
   BookingConflictError,
 } from './calendar';
+export {
+  createContact,
+  getContactByEmail,
+  getContactById,
+  addContactTags,
+  removeContactTags,
+  updateContactCustomFields,
+  addContactNote,
+  CUSTOM_FIELDS,
+  type CreateContactInput,
+  type GHLContactResponse,
+  type LeadSource,
+} from './contacts';
 
 const GHL_API_BASE = 'https://services.leadconnectorhq.com';
 

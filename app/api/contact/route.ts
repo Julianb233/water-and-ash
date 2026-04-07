@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { contactFormSchema } from '@/lib/validations/contact';
+import { createContact } from '@/lib/ghl/contacts';
 
 const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
@@ -10,6 +11,31 @@ export async function POST(req: NextRequest) {
 
     // Validate the request body
     const validatedData = contactFormSchema.parse(body);
+
+    // Split name into first/last for GHL
+    const nameParts = validatedData.name.trim().split(/\s+/);
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    // Create/upsert contact in GHL with lead source tracking (CRM-01, CRM-02, CRM-07)
+    let contactId: string | undefined;
+    try {
+      const contact = await createContact({
+        firstName,
+        lastName,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        source: 'website-contact-form',
+        serviceInterest: validatedData.service,
+        notes: validatedData.message,
+        tags: ['website-lead', 'contact-form'],
+      });
+      contactId = contact.id;
+      console.log(`[contact] GHL contact created/updated: ${contact.id}`);
+    } catch (ghlError) {
+      // Don't fail the form submission if GHL is down — email still goes out
+      console.error('[contact] GHL contact creation failed (non-blocking):', ghlError);
+    }
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
@@ -23,6 +49,7 @@ export async function POST(req: NextRequest) {
         <p><strong>Phone:</strong> ${validatedData.phone}</p>
         <p><strong>Service:</strong> ${validatedData.service}</p>
         ${validatedData.message ? `<p><strong>Message:</strong></p><p>${validatedData.message}</p>` : ''}
+        ${contactId ? `<p><em>GHL Contact ID: ${contactId}</em></p>` : ''}
       `,
     });
 
@@ -35,7 +62,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { message: 'Message sent successfully', data },
+      { message: 'Message sent successfully', data, contactId },
       { status: 200 }
     );
   } catch (error) {

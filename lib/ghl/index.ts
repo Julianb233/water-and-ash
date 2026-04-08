@@ -6,6 +6,8 @@
  * - Per-vessel calendar availability and booking with conflict detection
  */
 
+import { withWebhookMonitoring } from '@/lib/monitoring';
+
 export { type DayAvailability, type AvailableSlot, type BookingRequest, type BookingResponse } from './types';
 export {
   getVesselAvailability,
@@ -69,25 +71,32 @@ export async function updateOpportunityStage(
     return;
   }
 
-  const response = await fetch(
-    `${GHL_API_BASE}/opportunities/${opportunityId}`,
-    {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        Version: '2021-07-28',
-      },
-      body: JSON.stringify({
-        pipelineStageId,
-      }),
-    }
-  );
+  await withWebhookMonitoring(
+    'ghl',
+    `/opportunities/${opportunityId}`,
+    async () => {
+      const response = await fetch(
+        `${GHL_API_BASE}/opportunities/${opportunityId}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            Version: '2021-07-28',
+          },
+          body: JSON.stringify({
+            pipelineStageId,
+          }),
+        }
+      );
 
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(
-      `GHL API error (${response.status}): ${errorBody}`
-    );
-  }
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(
+          `GHL API error (${response.status}): ${errorBody}`
+        );
+      }
+    },
+    { opportunityId, stageName }
+  );
 }

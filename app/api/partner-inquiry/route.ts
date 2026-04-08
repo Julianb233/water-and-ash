@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { partnerInquirySchema } from '@/lib/validations/partner-inquiry';
 import { enqueueB2BDrip } from '@/lib/emails/drip';
+import { createB2BPartnerOpportunity } from '@/lib/ghl';
 
 const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
         <p><strong>Estimated Monthly Referrals:</strong> ${validatedData.referralVolume}</p>
         ${validatedData.message ? `<p><strong>Message:</strong></p><p>${validatedData.message}</p>` : ''}
         <hr />
-        <p><em>This inquiry was submitted from the Mortuaries partnership page.</em></p>
+        <p><em>This inquiry was submitted from the ${validatedData.businessType} partnership page.</em></p>
       `,
     });
 
@@ -35,6 +36,21 @@ export async function POST(req: NextRequest) {
         { message: 'Failed to send inquiry. Please try again or call us directly.' },
         { status: 500 }
       );
+    }
+
+    // CRM-06: Create B2B partner opportunity in GHL pipeline
+    try {
+      await createB2BPartnerOpportunity({
+        contactName: validatedData.contactName,
+        businessName: validatedData.businessName,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        businessType: validatedData.businessType,
+        source: 'partner-inquiry-form',
+      });
+    } catch (ghlError) {
+      // Log but don't fail the request — email notification already sent
+      console.error('[ghl] B2B opportunity creation error:', ghlError);
     }
 
     // AUTO-02: Enqueue B2B partner nurture drip sequence

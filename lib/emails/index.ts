@@ -13,6 +13,7 @@
  */
 
 export { bookingConfirmationEmail } from './booking-confirmation';
+export { bookingCancellationEmail } from './booking-cancellation';
 export { ceremonyReminderEmail } from './ceremony-reminder';
 export { postServiceFollowUpEmail } from './post-service-followup';
 export { reviewRequestEmail } from './review-request';

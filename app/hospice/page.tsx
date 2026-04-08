@@ -9,7 +9,6 @@ import {
   Phone,
   ArrowRight,
   CheckCircle2,
-  Anchor,
   Heart,
   Stethoscope,
 } from 'lucide-react';
@@ -20,7 +19,7 @@ import {
   StaggerContainer,
   StaggerItem,
 } from '@/components/animations/motion-primitives';
-import { PartnerInquiryForm } from '@/components/forms/partner-inquiry-form';
+import { HospiceInquiryForm } from '@/components/forms/hospice-inquiry-form';
 
 export const metadata: Metadata = {
   title: 'Hospice Partnerships - Pre-Planning Sea Burial | Water & Ash',
@@ -200,6 +199,43 @@ export default function HospicePage() {
         </Container>
       </section>
 
+      {/* Pre-Death Planning */}
+      <section className="py-20 md:py-28">
+        <Container>
+          <div className="mx-auto max-w-4xl">
+            <FadeIn>
+              <div className="card-premium rounded-2xl p-10 md:p-14">
+                <h2 className="font-serif text-2xl font-bold tracking-tight text-foreground sm:text-3xl text-center">
+                  The Gift of Pre-Planning
+                </h2>
+                <div className="mt-8 space-y-6 text-muted-foreground leading-relaxed">
+                  <p>
+                    When a family enters hospice care, there are a thousand decisions to
+                    manage. Burial arrangements shouldn&apos;t add to that weight.
+                  </p>
+                  <p>
+                    Pre-death planning allows patients and their families to choose a sea
+                    burial while they still have the clarity and emotional capacity to make
+                    that decision together. It becomes an act of love — a conversation
+                    about legacy, not logistics.
+                  </p>
+                  <p>
+                    We&apos;ve worked with hospice social workers, chaplains, and care teams
+                    across San Diego. Our materials are designed for bedside conversations.
+                    Our coordinators are trained in grief-sensitive communication. And when
+                    the time comes, we handle everything — so the family can focus on what
+                    matters most.
+                  </p>
+                  <p className="font-medium text-foreground">
+                    Pre-planning transforms a future burden into a present comfort.
+                  </p>
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+        </Container>
+      </section>
+
       {/* Planning Process */}
       <section className="py-20 md:py-28 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/30 to-background" />
@@ -290,20 +326,30 @@ export default function HospicePage() {
                     touch within 24 hours.
                   </p>
 
-                  <div className="mt-8 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20">
-                      <Phone className="h-5 w-5 text-gold" />
+                  <div className="mt-8 space-y-6">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20">
+                        <Phone className="h-5 w-5 text-gold" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">
+                          Prefer to call?
+                        </p>
+                        <a
+                          href="tel:619-928-9160"
+                          className="font-medium hover:text-gold transition-colors"
+                        >
+                          619-928-9160
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        Prefer to call?
+
+                    <div className="rounded-xl bg-secondary/50 p-4 border border-border/50">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        <strong className="text-foreground">For hospice teams:</strong>{' '}
+                        We provide grief-sensitive brochures suitable for bedside
+                        conversations, plus a dedicated coordinator for your organization.
                       </p>
-                      <a
-                        href="tel:619-928-9160"
-                        className="font-medium hover:text-gold transition-colors"
-                      >
-                        619-928-9160
-                      </a>
                     </div>
                   </div>
                 </FadeIn>
@@ -312,9 +358,9 @@ export default function HospicePage() {
               <div className="lg:col-span-3">
                 <div className="card-premium rounded-2xl p-8">
                   <h3 className="font-serif text-2xl font-bold mb-6">
-                    Partnership Inquiry
+                    Hospice Partnership Inquiry
                   </h3>
-                  <PartnerInquiryForm />
+                  <HospiceInquiryForm />
                 </div>
               </div>
             </div>

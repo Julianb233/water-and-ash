@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
+import { useUtmParams } from '@/lib/hooks/use-utm-params';
 
 const services = [
   { value: 'osprey', label: 'The Osprey' },
@@ -23,6 +24,7 @@ export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const router = useRouter();
+  const utmParams = useUtmParams();
 
   const {
     register,
@@ -42,7 +44,7 @@ export function ContactForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, ...utmParams }),
       });
 
       if (!response.ok) {

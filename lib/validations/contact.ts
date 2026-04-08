@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { utmSchema } from './utm';
 
 export const contactFormSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name is too long'),
@@ -6,6 +7,6 @@ export const contactFormSchema = z.object({
   phone: z.string().min(1, 'Phone number is required'),
   service: z.string().min(1, 'Please select a service'),
   message: z.string().max(2000, 'Message is too long').optional(),
-});
+}).merge(utmSchema);
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;

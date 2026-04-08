@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { partnerInquirySchema } from '@/lib/validations/partner-inquiry';
+import { formatUtmHtml } from '@/lib/validations/utm';
 
 const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
@@ -22,6 +23,7 @@ export async function POST(req: NextRequest) {
         <p><strong>Business Type:</strong> ${validatedData.businessType}</p>
         <p><strong>Estimated Monthly Referrals:</strong> ${validatedData.referralVolume}</p>
         ${validatedData.message ? `<p><strong>Message:</strong></p><p>${validatedData.message}</p>` : ''}
+        ${formatUtmHtml(validatedData)}
         <hr />
         <p><em>This inquiry was submitted from the Mortuaries partnership page.</em></p>
       `,

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { utmSchema } from './utm';
 
 export const partnerInquirySchema = z.object({
   contactName: z
@@ -17,6 +18,6 @@ export const partnerInquirySchema = z.object({
   businessType: z.string().min(1, 'Please select your business type'),
   referralVolume: z.string().min(1, 'Please select estimated referral volume'),
   message: z.string().max(2000, 'Message is too long').optional(),
-});
+}).merge(utmSchema);
 
 export type PartnerInquiryData = z.infer<typeof partnerInquirySchema>;

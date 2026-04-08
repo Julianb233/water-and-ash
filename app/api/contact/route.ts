@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { contactFormSchema } from '@/lib/validations/contact';
+import { formatUtmHtml } from '@/lib/validations/utm';
 
 const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
         <p><strong>Phone:</strong> ${validatedData.phone}</p>
         <p><strong>Service:</strong> ${validatedData.service}</p>
         ${validatedData.message ? `<p><strong>Message:</strong></p><p>${validatedData.message}</p>` : ''}
+        ${formatUtmHtml(validatedData)}
       `,
     });
 

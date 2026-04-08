@@ -5,6 +5,9 @@ import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem, AnimatedButton, WaveDivider } from '@/components/animations/motion-primitives';
 import { ServiceStructuredData } from '@/components/structured-data';
+import { VesselTourVideo } from '@/components/services/vessel-tour-video';
+
+const OSPREY_VIDEO_ID = process.env.NEXT_PUBLIC_TOUR_VIDEO_OSPREY || '';
 
 export const metadata: Metadata = {
   title: 'The Osprey - 62ft Striker Sea Burial Vessel',
@@ -60,6 +63,23 @@ export default function OspreyPage() {
           </FadeIn>
         </Container>
       </section>
+
+      {/* Virtual Tour Video */}
+      {OSPREY_VIDEO_ID && (
+        <section className="py-12 md:py-16">
+          <Container>
+            <FadeIn className="mx-auto max-w-4xl">
+              <h2 className="font-serif text-2xl font-bold text-center text-foreground sm:text-3xl mb-8">
+                Virtual Tour
+              </h2>
+              <VesselTourVideo
+                videoId={OSPREY_VIDEO_ID}
+                title="The Osprey — 62ft Striker Virtual Tour"
+              />
+            </FadeIn>
+          </Container>
+        </section>
+      )}
 
       {/* Details Section */}
       <section className="py-16 md:py-24">

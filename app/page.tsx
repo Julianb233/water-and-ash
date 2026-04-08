@@ -14,9 +14,20 @@ import {
   CountUp,
   Float,
 } from '@/components/animations/motion-primitives';
-import { TestimonialsSection } from '@/components/testimonials/testimonial-card';
-import { FAQSection } from '@/components/faq/faq-section';
-import { PhotoGallery } from '@/components/gallery/photo-gallery';
+import dynamic from 'next/dynamic';
+
+const TestimonialsSection = dynamic(
+  () => import('@/components/testimonials/testimonial-card').then(mod => ({ default: mod.TestimonialsSection })),
+  { loading: () => <div className="py-16 md:py-24" /> }
+);
+const FAQSection = dynamic(
+  () => import('@/components/faq/faq-section').then(mod => ({ default: mod.FAQSection })),
+  { loading: () => <div className="py-16 md:py-24" /> }
+);
+const PhotoGallery = dynamic(
+  () => import('@/components/gallery/photo-gallery').then(mod => ({ default: mod.PhotoGallery })),
+  { loading: () => <div className="py-16 md:py-24" /> }
+);
 
 const services = [
   {
@@ -279,6 +290,7 @@ export default function HomePage() {
             src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=1920&h=600&fit=crop&q=60"
             alt=""
             fill
+            loading="lazy"
             className="object-cover"
           />
         </div>

@@ -30,6 +30,7 @@ export function ServiceCard({
           src={imageUrl}
           alt={`${name} - ${vessel}`}
           fill
+          loading="lazy"
           className="object-cover transition-transform duration-500 group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, 50vw"
         />

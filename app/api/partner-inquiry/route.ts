@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { partnerInquirySchema } from '@/lib/validations/partner-inquiry';
+import { enqueueB2BDrip } from '@/lib/emails/drip';
+import { createB2BPartnerOpportunity } from '@/lib/ghl';
 
 const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
@@ -9,6 +11,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const validatedData = partnerInquirySchema.parse(body);
 
+    // Send internal notification email
     const { data, error } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
       to: process.env.RESEND_TO_EMAIL || 'info@waterandashburials.org',
@@ -23,7 +26,7 @@ export async function POST(req: NextRequest) {
         <p><strong>Estimated Monthly Referrals:</strong> ${validatedData.referralVolume}</p>
         ${validatedData.message ? `<p><strong>Message:</strong></p><p>${validatedData.message}</p>` : ''}
         <hr />
-        <p><em>This inquiry was submitted from the Mortuaries partnership page.</em></p>
+        <p><em>This inquiry was submitted from the ${validatedData.businessType} partnership page.</em></p>
       `,
     });
 
@@ -34,6 +37,38 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
+
+    // CRM-06: Create B2B partner opportunity in GHL pipeline
+    try {
+      await createB2BPartnerOpportunity({
+        contactName: validatedData.contactName,
+        businessName: validatedData.businessName,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        businessType: validatedData.businessType,
+        source: 'partner-inquiry-form',
+      });
+    } catch (ghlError) {
+      // Log but don't fail the request — email notification already sent
+      console.error('[ghl] B2B opportunity creation error:', ghlError);
+    }
+
+    // AUTO-02: Enqueue B2B partner nurture drip sequence
+    const dripResult = await enqueueB2BDrip({
+      contactName: validatedData.contactName,
+      businessName: validatedData.businessName,
+      email: validatedData.email,
+      phone: validatedData.phone,
+      businessType: validatedData.businessType,
+      referralVolume: validatedData.referralVolume,
+      message: validatedData.message,
+    });
+
+    if (dripResult.errors.length > 0) {
+      console.warn('[drip] B2B drip scheduling errors:', dripResult.errors);
+    }
+
+    console.log(`[drip] B2B drip: ${dripResult.scheduled}/4 emails scheduled for ${validatedData.email}`);
 
     return NextResponse.json(
       { message: 'Partnership inquiry sent successfully', data },

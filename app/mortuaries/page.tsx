@@ -443,6 +443,7 @@ export default function MortuariesPage() {
             src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=600&fit=crop&q=60"
             alt=""
             fill
+            loading="lazy"
             className="object-cover"
           />
         </div>

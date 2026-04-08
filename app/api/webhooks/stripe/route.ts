@@ -13,8 +13,12 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { Resend } from 'resend';
 import { stripe } from '@/lib/stripe';
 import { updateOpportunityStage } from '@/lib/ghl';
+import { bookingConfirmationEmail } from '@/lib/emails';
+
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
 // ─── Signature Verification ────────────────────────────────────────────────
 
@@ -65,6 +69,39 @@ async function handleCheckoutCompleted(
   console.log(
     `[stripe-webhook] Successfully updated opportunity ${opportunityId}`
   );
+
+  // PAY-07: Send booking confirmation email
+  const customerEmail = session.customer_details?.email || session.metadata?.email;
+  const customerName = session.customer_details?.name || session.metadata?.contact_name;
+
+  if (customerEmail && customerName) {
+    try {
+      const { subject, html } = bookingConfirmationEmail({
+        contactName: customerName,
+        contactEmail: customerEmail,
+        serviceName: session.metadata?.service_name || 'Sea Burial Ceremony',
+        vesselName: session.metadata?.vessel_name,
+        ceremonyDate: session.metadata?.ceremony_date || '',
+        ceremonyTime: session.metadata?.ceremony_time,
+        depositAmount: session.amount_total
+          ? (session.amount_total / 100).toFixed(2)
+          : undefined,
+        confirmationId: session.metadata?.confirmation_id,
+      });
+
+      await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
+        to: customerEmail,
+        subject,
+        html,
+      });
+
+      console.log(`[stripe-webhook] Confirmation email sent to ${customerEmail}`);
+    } catch (emailErr) {
+      // Log but don't fail — payment already processed
+      console.error('[stripe-webhook] Failed to send confirmation email:', emailErr);
+    }
+  }
 }
 
 // ─── Route Handler ─────────────────────────────────────────────────────────

@@ -16,6 +16,8 @@ interface ConfirmationPageProps {
     date?: string;
     time?: string;
     appointmentId?: string;
+    session_id?: string;
+    paid?: string;
   }>;
 }
 
@@ -49,7 +51,8 @@ function formatTime(isoStr: string): string {
 
 export default async function ConfirmationPage(props: ConfirmationPageProps) {
   const searchParams = await props.searchParams;
-  const { vessel, date, time } = searchParams;
+  const { vessel, date, time, paid } = searchParams;
+  const isPaid = paid === 'true';
 
   return (
     <>
@@ -65,9 +68,17 @@ export default async function ConfirmationPage(props: ConfirmationPageProps) {
             </h1>
 
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              Thank you for choosing Water & Ash Burials. Your ceremony request has
-              been received and our team will follow up shortly to confirm all details.
+              {isPaid
+                ? 'Your deposit has been received and your ceremony is confirmed. A confirmation email has been sent to you with all the details.'
+                : 'Thank you for choosing Water & Ash Burials. Your ceremony request has been received and our team will follow up shortly to confirm all details.'}
             </p>
+
+            {isPaid && (
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700">
+                <CheckCircle2 className="h-4 w-4" />
+                Deposit Received
+              </div>
+            )}
           </FadeIn>
         </Container>
       </section>
@@ -124,8 +135,9 @@ export default async function ConfirmationPage(props: ConfirmationPageProps) {
                       Confirmation Call
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      A team member will call you within 24 hours to confirm
-                      your ceremony details and discuss the deposit.
+                      {isPaid
+                        ? 'A team member will call you within 24 hours to finalize ceremony details and discuss any special requests.'
+                        : 'A team member will call you within 24 hours to confirm your ceremony details and discuss the deposit.'}
                     </p>
                   </div>
                 </li>

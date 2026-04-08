@@ -5,6 +5,9 @@ import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem, AnimatedButton, WaveDivider } from '@/components/animations/motion-primitives';
 import { ServiceStructuredData } from '@/components/structured-data';
+import { VesselTourVideo } from '@/components/services/vessel-tour-video';
+
+const RELENTLESS_VIDEO_ID = process.env.NEXT_PUBLIC_TOUR_VIDEO_RELENTLESS || '';
 
 export const metadata: Metadata = {
   title: 'Relentless - 45ft Bali Catamaran',
@@ -60,6 +63,23 @@ export default function RelentlessPage() {
           </FadeIn>
         </Container>
       </section>
+
+      {/* Virtual Tour Video */}
+      {RELENTLESS_VIDEO_ID && (
+        <section className="py-12 md:py-16">
+          <Container>
+            <FadeIn className="mx-auto max-w-4xl">
+              <h2 className="font-serif text-2xl font-bold text-center text-foreground sm:text-3xl mb-8">
+                Virtual Tour
+              </h2>
+              <VesselTourVideo
+                videoId={RELENTLESS_VIDEO_ID}
+                title="Relentless — 45ft Bali Catamaran Virtual Tour"
+              />
+            </FadeIn>
+          </Container>
+        </section>
+      )}
 
       {/* Details Section */}
       <section className="py-20 md:py-28">

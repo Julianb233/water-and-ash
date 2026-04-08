@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CheckCircle2, Phone, Mail, ArrowRight } from 'lucide-react';
+import { CheckCircle2, Phone, Mail, ArrowRight, CloudSun, Shield } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/animations/motion-primitives';
@@ -158,6 +158,36 @@ export default async function ConfirmationPage(props: ConfirmationPageProps) {
                   </div>
                 </li>
               </ol>
+            </div>
+
+            {/* Weather & Refund Policies */}
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-border bg-cream p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <CloudSun className="h-5 w-5 text-gold" />
+                  <h3 className="font-serif text-base font-semibold text-foreground">
+                    Weather Policy
+                  </h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  If conditions are unsafe, we reschedule at no additional
+                  cost. Our captains monitor weather closely and will
+                  contact you 24 hours in advance if rescheduling is needed.
+                </p>
+              </div>
+              <div className="rounded-xl border border-border bg-cream p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <Shield className="h-5 w-5 text-gold" />
+                  <h3 className="font-serif text-base font-semibold text-foreground">
+                    Refund Policy
+                  </h3>
+                </div>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>7+ days notice: full refund</li>
+                  <li>3-6 days notice: 50% refund</li>
+                  <li>Weather cancellations: free reschedule</li>
+                </ul>
+              </div>
             </div>
 
             {/* Contact Info */}

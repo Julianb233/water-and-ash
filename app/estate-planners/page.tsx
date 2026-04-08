@@ -3,16 +3,16 @@ import Image from 'next/image';
 import {
   Scale,
   DollarSign,
-  Users,
   Shield,
   Clock,
   Phone,
   ArrowRight,
   CheckCircle2,
-  Anchor,
   FileText,
   BookOpen,
   Briefcase,
+  Heart,
+  ScrollText,
 } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
@@ -21,12 +21,12 @@ import {
   StaggerContainer,
   StaggerItem,
 } from '@/components/animations/motion-primitives';
-import { PartnerInquiryForm } from '@/components/forms/partner-inquiry-form';
+import { EstatePlannerInquiryForm } from '@/components/forms/estate-planner-inquiry-form';
 
 export const metadata: Metadata = {
   title: 'Estate Planner Partnerships - End-of-Life Planning | Water & Ash',
   description:
-    'Partner with Water & Ash Burials to offer estate planning clients a pre-planned sea burial option. Complement wills, trusts, and advance directives with dignified end-of-life arrangements.',
+    'Partner with Water & Ash Burials to offer estate planning clients a pre-planned sea burial option. Complement wills, trusts, and advance directives with dignified end-of-life arrangements in San Diego.',
   openGraph: {
     title: 'Estate Planner Partnerships | Water & Ash Burials',
     description:
@@ -100,6 +100,27 @@ const planningSteps = [
   },
 ];
 
+const advanceDirectivePoints = [
+  {
+    icon: ScrollText,
+    title: 'Advance Directive Integration',
+    description:
+      'Sea burial preferences are documented in a format that references and aligns with your client\'s advance healthcare directive, creating a unified end-of-life plan.',
+  },
+  {
+    icon: Heart,
+    title: 'Family Peace of Mind',
+    description:
+      'When your clients pre-plan their sea burial, their families never have to guess about final wishes. The arrangements are already in place — documented and paid for.',
+  },
+  {
+    icon: Briefcase,
+    title: 'Executor-Ready Documentation',
+    description:
+      'Every pre-planned arrangement includes clear executor instructions. When the time comes, the designated executor simply contacts us to initiate the pre-arranged ceremony.',
+  },
+];
+
 export default function EstatePlannersPage() {
   return (
     <>
@@ -165,8 +186,42 @@ export default function EstatePlannersPage() {
         </Container>
       </section>
 
-      {/* Benefits */}
+      {/* Advance Directive Integration */}
       <section className="py-20 md:py-28 bg-cream">
+        <Container>
+          <FadeIn className="mx-auto max-w-2xl text-center">
+            <h2 className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+              The Missing Piece in{' '}
+              <span className="text-gradient-gold">Advance Directives</span>
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
+              Your clients plan for healthcare decisions, asset distribution, and
+              guardianship. But what about their final resting place?
+            </p>
+          </FadeIn>
+
+          <StaggerContainer className="mx-auto mt-16 grid max-w-5xl gap-8 md:grid-cols-3">
+            {advanceDirectivePoints.map((point) => (
+              <StaggerItem key={point.title}>
+                <div className="card-premium rounded-2xl p-8 h-full text-center">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20 mx-auto">
+                    <point.icon className="h-7 w-7 text-gold" />
+                  </div>
+                  <h3 className="mt-5 font-serif text-xl font-semibold text-foreground">
+                    {point.title}
+                  </h3>
+                  <p className="mt-3 text-muted-foreground leading-relaxed">
+                    {point.description}
+                  </p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </Container>
+      </section>
+
+      {/* Benefits */}
+      <section className="py-20 md:py-28">
         <Container>
           <FadeIn className="mx-auto max-w-2xl text-center">
             <h2 className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
@@ -196,6 +251,44 @@ export default function EstatePlannersPage() {
               </StaggerItem>
             ))}
           </StaggerContainer>
+        </Container>
+      </section>
+
+      {/* Client Scenario */}
+      <section className="py-20 md:py-28 bg-cream">
+        <Container>
+          <div className="mx-auto max-w-4xl">
+            <FadeIn>
+              <div className="card-premium rounded-2xl p-10 md:p-14">
+                <h2 className="font-serif text-2xl font-bold tracking-tight text-foreground sm:text-3xl text-center">
+                  How It Works in Practice
+                </h2>
+                <div className="mt-8 space-y-6 text-muted-foreground leading-relaxed">
+                  <p>
+                    Your client, Margaret, is 72 and updating her estate plan. She has a
+                    revocable living trust, a healthcare directive, and a durable power
+                    of attorney. But when you ask about burial wishes, she hesitates.
+                  </p>
+                  <p>
+                    &ldquo;I&apos;ve always loved the ocean,&rdquo; she says. &ldquo;I just don&apos;t want to
+                    burden my children with making those decisions.&rdquo;
+                  </p>
+                  <p>
+                    You introduce Water & Ash. We schedule a consultation with Margaret,
+                    walk her through vessel options and ceremony details, and formalize a
+                    pre-planning agreement. The arrangement is documented alongside her
+                    trust — pricing locked in, ceremony specified, executor instructions
+                    included.
+                  </p>
+                  <p className="font-medium text-foreground">
+                    When the time comes, her daughter calls us. Everything is already arranged.
+                    No decisions to make. No costs to negotiate. Just a dignified ceremony
+                    honoring her mother&apos;s wishes.
+                  </p>
+                </div>
+              </div>
+            </FadeIn>
+          </div>
         </Container>
       </section>
 
@@ -289,20 +382,31 @@ export default function EstatePlannersPage() {
                     complement your estate planning services.
                   </p>
 
-                  <div className="mt-8 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20">
-                      <Phone className="h-5 w-5 text-gold" />
+                  <div className="mt-8 space-y-6">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20">
+                        <Phone className="h-5 w-5 text-gold" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">
+                          Prefer to call?
+                        </p>
+                        <a
+                          href="tel:619-928-9160"
+                          className="font-medium hover:text-gold transition-colors"
+                        >
+                          619-928-9160
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        Prefer to call?
+
+                    <div className="rounded-xl bg-secondary/50 p-4 border border-border/50">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        <strong className="text-foreground">For attorneys and planners:</strong>{' '}
+                        We provide co-branded materials suitable for client-facing
+                        presentations, along with a dedicated partnership coordinator
+                        for your practice.
                       </p>
-                      <a
-                        href="tel:619-928-9160"
-                        className="font-medium hover:text-gold transition-colors"
-                      >
-                        619-928-9160
-                      </a>
                     </div>
                   </div>
                 </FadeIn>
@@ -311,9 +415,9 @@ export default function EstatePlannersPage() {
               <div className="lg:col-span-3">
                 <div className="card-premium rounded-2xl p-8">
                   <h3 className="font-serif text-2xl font-bold mb-6">
-                    Partnership Inquiry
+                    Estate Planner Inquiry
                   </h3>
-                  <PartnerInquiryForm />
+                  <EstatePlannerInquiryForm />
                 </div>
               </div>
             </div>
@@ -332,7 +436,7 @@ export default function EstatePlannersPage() {
             </h2>
             <p className="mt-6 text-lg text-white/80 leading-relaxed">
               Give your clients the peace of knowing every detail is handled —
-              including their final wishes. Partner with Water &amp; Ash today.
+              including their final wishes. Partner with Water & Ash today.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button

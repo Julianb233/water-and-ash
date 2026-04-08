@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { useUtmParams } from '@/lib/hooks/use-utm-params';
 
 /**
  * Multi-step booking form for scheduling a sea burial ceremony.
@@ -23,6 +24,7 @@ import { Label } from '@/components/ui/label';
  */
 export function BookingForm() {
   const router = useRouter();
+  const utmParams = useUtmParams();
 
   // Form state
   const [vesselId, setVesselId] = useState('');
@@ -110,6 +112,7 @@ export function BookingForm() {
           guestCount: guests,
           specialRequests: specialRequests || undefined,
           source: 'website-booking',
+          ...utmParams,
         }),
       });
 

@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
+import { useUtmParams } from '@/lib/hooks/use-utm-params';
 
 const businessTypes = [
   { value: 'mortuary', label: 'Mortuary' },
@@ -35,6 +36,7 @@ export function PartnerInquiryForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const router = useRouter();
+  const utmParams = useUtmParams();
 
   const {
     register,
@@ -52,7 +54,7 @@ export function PartnerInquiryForm() {
       const response = await fetch('/api/partner-inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, ...utmParams }),
       });
 
       if (!response.ok) {

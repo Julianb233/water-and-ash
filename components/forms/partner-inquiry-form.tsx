@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
+import { trackConversion, ConversionEvents, getAttribution } from '@/lib/analytics';
 
 const businessTypes = [
   { value: 'mortuary', label: 'Mortuary' },
@@ -49,10 +50,11 @@ export function PartnerInquiryForm() {
     setSubmitError(null);
 
     try {
+      const attribution = getAttribution();
       const response = await fetch('/api/partner-inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, attribution }),
       });
 
       if (!response.ok) {
@@ -60,6 +62,10 @@ export function PartnerInquiryForm() {
         throw new Error(error.message || 'Failed to send inquiry');
       }
 
+      trackConversion(ConversionEvents.PARTNER_INQUIRY_SUBMIT, {
+        business_type: data.businessType,
+        referral_volume: data.referralVolume,
+      });
       router.push('/thank-you?type=partner');
     } catch (error) {
       setSubmitError(

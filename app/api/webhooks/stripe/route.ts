@@ -13,8 +13,10 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import * as Sentry from '@sentry/nextjs';
 import { stripe } from '@/lib/stripe';
 import { updateOpportunityStage } from '@/lib/ghl';
+import { trackInboundWebhook } from '@/lib/monitoring';
 
 // ─── Signature Verification ────────────────────────────────────────────────
 
@@ -70,6 +72,7 @@ async function handleCheckoutCompleted(
 // ─── Route Handler ─────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
+  const start = Date.now();
   let event: Stripe.Event;
 
   // Step 1: Verify signature (PAY-03)
@@ -78,6 +81,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     console.error('[stripe-webhook] Signature verification failed:', message);
+
+    trackInboundWebhook('stripe', '/api/webhooks/stripe', {
+      success: false,
+      statusCode: 400,
+      error: `Signature verification failed: ${message}`,
+      durationMs: Date.now() - start,
+    });
+
     return NextResponse.json(
       { error: `Webhook signature verification failed: ${message}` },
       { status: 400 }
@@ -100,10 +111,28 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         );
     }
 
+    trackInboundWebhook('stripe', '/api/webhooks/stripe', {
+      success: true,
+      statusCode: 200,
+      durationMs: Date.now() - start,
+    }, { eventType: event.type });
+
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     console.error(`[stripe-webhook] Error handling ${event.type}:`, message);
+
+    Sentry.captureException(err, {
+      tags: { 'webhook.provider': 'stripe', 'stripe.event_type': event.type },
+    });
+
+    trackInboundWebhook('stripe', '/api/webhooks/stripe', {
+      success: false,
+      statusCode: 500,
+      error: message,
+      durationMs: Date.now() - start,
+    }, { eventType: event.type });
+
     // Return 500 so Stripe will retry
     return NextResponse.json(
       { error: `Webhook handler failed: ${message}` },

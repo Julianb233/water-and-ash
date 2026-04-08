@@ -5,6 +5,7 @@ import { inter, playfair } from './fonts';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { StructuredData } from '@/components/structured-data';
+import { AttributionProvider } from '@/components/analytics/attribution-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -76,6 +77,7 @@ export default function RootLayout({
         <Header />
         <main id="main-content" className="flex-1">{children}</main>
         <Footer />
+        <AttributionProvider />
         <Analytics />
         <SpeedInsights />
       </body>

@@ -8,8 +8,9 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    // Validate the request body
-    const validatedData = contactFormSchema.parse(body);
+    // Validate the request body (attribution is passed through but not validated)
+    const { attribution, ...formData } = body;
+    const validatedData = contactFormSchema.parse(formData);
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
         <p><strong>Phone:</strong> ${validatedData.phone}</p>
         <p><strong>Service:</strong> ${validatedData.service}</p>
         ${validatedData.message ? `<p><strong>Message:</strong></p><p>${validatedData.message}</p>` : ''}
+        ${attribution?.utm_source ? `<hr /><p style="color:#888;font-size:12px;"><strong>Lead Source:</strong> ${attribution.utm_source}${attribution.utm_medium ? ` / ${attribution.utm_medium}` : ''}${attribution.utm_campaign ? ` (${attribution.utm_campaign})` : ''}${attribution.referrer ? ` | Referrer: ${attribution.referrer}` : ''}</p>` : ''}
       `,
     });
 

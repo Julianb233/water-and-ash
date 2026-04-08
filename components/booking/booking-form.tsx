@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { trackConversion, ConversionEvents, getAttribution } from '@/lib/analytics';
 
 /**
  * Multi-step booking form for scheduling a sea burial ceremony.
@@ -95,6 +96,7 @@ export function BookingForm() {
     }
 
     try {
+      const attribution = getAttribution();
       const response = await fetch('/api/calendar/book', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -109,7 +111,8 @@ export function BookingForm() {
           phone,
           guestCount: guests,
           specialRequests: specialRequests || undefined,
-          source: 'website-booking',
+          source: attribution.utm_source || 'website-booking',
+          attribution,
         }),
       });
 
@@ -118,6 +121,11 @@ export function BookingForm() {
       if (!response.ok) {
         throw new Error(data.error || 'Failed to create booking');
       }
+
+      trackConversion(ConversionEvents.BOOKING_SUBMIT, {
+        vessel: vesselId,
+        guest_count: guests,
+      });
 
       // Redirect to confirmation page with booking details
       const params = new URLSearchParams({

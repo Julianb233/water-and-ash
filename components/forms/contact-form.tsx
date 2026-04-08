@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
+import { trackConversion, ConversionEvents, getAttribution } from '@/lib/analytics';
 
 const services = [
   { value: 'osprey', label: 'The Osprey' },
@@ -37,12 +38,13 @@ export function ContactForm() {
     setSubmitError(null);
 
     try {
+      const attribution = getAttribution();
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, attribution }),
       });
 
       if (!response.ok) {
@@ -50,6 +52,7 @@ export function ContactForm() {
         throw new Error(error.message || 'Failed to send message');
       }
 
+      trackConversion(ConversionEvents.CONTACT_FORM_SUBMIT, { service: data.service });
       router.push('/thank-you');
     } catch (error) {
       setSubmitError(

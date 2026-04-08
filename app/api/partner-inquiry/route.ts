@@ -7,7 +7,8 @@ const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const validatedData = partnerInquirySchema.parse(body);
+    const { attribution, ...formData } = body;
+    const validatedData = partnerInquirySchema.parse(formData);
 
     const { data, error } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest) {
         ${validatedData.message ? `<p><strong>Message:</strong></p><p>${validatedData.message}</p>` : ''}
         <hr />
         <p><em>This inquiry was submitted from the Mortuaries partnership page.</em></p>
+        ${attribution?.utm_source ? `<p style="color:#888;font-size:12px;"><strong>Lead Source:</strong> ${attribution.utm_source}${attribution.utm_medium ? ` / ${attribution.utm_medium}` : ''}${attribution.utm_campaign ? ` (${attribution.utm_campaign})` : ''}${attribution.referrer ? ` | Referrer: ${attribution.referrer}` : ''}</p>` : ''}
       `,
     });
 
